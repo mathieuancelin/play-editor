@@ -1,0 +1,76 @@
+#{set title:"Project '" + projectName + "' - Code Editor" /}
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>#{get 'title' /}</title>
+        <meta charset="${_response_encoding}">
+        <link rel="stylesheet" media="screen" href="@{'/public/aceeditor/stylesheets/main.css'}">
+        <link rel="stylesheet" media="screen" href="@{'/public/aceeditor/bootstrap/css/bootstrap.min.css'}">
+        <script src="@{'/public/aceeditor/javascripts/jquery-1.6.4.min.js'}" type="text/javascript" 
+                    charset="${_response_encoding}"></script>
+        <script src="@{'/public/aceeditor/ace/ace.js'}" type="text/javascript" charset="utf-8"></script>
+        <script src="@{'/public/aceeditor/bootstrap/js/bootstrap.min.js'}" type="text/javascript" charset="utf-8"></script>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span3">
+                    <h4>Project : '${projectName}'</h4>
+                    <button id="savefile" class="btn btn-small btn-primary"><i class="icon-hdd icon-white"></i> Save</button>
+                    <button id="refreshfile" class="btn btn-small btn-primary"><i class="icon-refresh icon-white"></i> Refresh</button>
+                    <button id="run" class="btn btn-small btn-success"><i class="icon-play icon-white"></i> Run</button>
+                    <br/><br/>
+                    <div id="message" class="label label-info"></div>
+                    <h5>Project source files</h5>
+                    <div id="listTree"></div>
+
+                    <ul id="files" class="unstyled">
+                        #{list files, as:'file'}
+                            <li><a href="@{AceEditor.file(file.path, 0)}">${file.displayPath}</a></li>
+                        #{/list}
+                    </ul>
+                </div>
+                <div class="span9">
+                    <div id="editor" class="span9">${src}</div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            var currentFile = '${currentFile}';
+            var saveFile = function(editor) {
+                var src = editor.getValue();
+                $('#message').html('saving ...');
+                $.post('@{AceEditor.save}', {src: src, currentFile: currentFile}, function(data) {
+                    $('#message').html('file saved !');
+                    editor.getValue(data);
+                    setTimeout(function() { $('#message').html(''); }, 2000)
+                })
+            };
+
+            $(document).ready(function() {
+                var editor = ace.edit("editor");
+                editor.commands.addCommand({
+                    name: 'saveFile',
+                    bindKey: {win: 'Ctrl-S',  mac: 'Command-S'},
+                    exec: function(editor) {
+                        saveFile(editor);
+                    },
+                    readOnly: true // false if this command should not apply in readOnly mode
+                });
+                editor.setTheme("ace/theme/monokai");
+                editor.getSession().setMode("${type}");
+                editor.setHighlightActiveLine(true);
+                editor.getSession().setUseSoftTabs(true);
+                editor.getSession().setTabSize(4);
+                editor.gotoLine(${line});
+                $('#savefile').click(function(e) {
+                    e.preventDefault();
+                    saveFile(editor);
+                })
+            })
+        </script>
+    </body>
+</html>

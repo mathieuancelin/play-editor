@@ -1,0 +1,4 @@
+self: play -> ace 0.1
+
+require:
+    - play
