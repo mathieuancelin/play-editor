@@ -1,17 +1,22 @@
-package controllers;
+package play.modules.ide;
 
-import play.*;
+import groovy.text.SimpleTemplateEngine;
+import groovy.text.Template;
+import play.Play;
 import play.libs.IO;
-import play.mvc.*;
 
 import java.io.File;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.*;
-import models.*;
+import java.util.concurrent.ConcurrentHashMap;
+
+import play.mvc.Http;
 import play.vfs.VirtualFile;
 
-public class AceEditor extends Controller {
+public class AceEditor {
 
-    public static void index() {
+    public static void index(Http.Request request, Http.Response response) throws Exception {
         String projectName = Play.configuration.getProperty("application.name", "Unknown");
         VirtualFile vf = Play.roots.get(0);
         List files = getFiles(vf, new ArrayList());
@@ -23,11 +28,24 @@ public class AceEditor extends Controller {
             currentFile = vf.getRealFile().getAbsolutePath();
         }
         String type = "ace/mode/java";
-        int line = 0;
-        render(projectName, src, files, currentFile, type);
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("projectName", projectName);
+        params.put("src", src);
+        params.put("files", files);
+        params.put("currentFile", currentFile);
+        params.put("type", type);
+        params.put("line", 0);
+        response.contentType = "text/html";
+        for (VirtualFile f : Play.roots) {
+            if (f.getName().equals("ace")) {
+                VirtualFile root = f;
+                root = root.child("/app/views/AceEditor/index.html");
+                renderGroovytemplate(root.getRealFile(), params, response.out);
+            }
+        }
     }
 
-    public static void file(String path, int line) {
+    public static void file(Http.Request request, Http.Response response, String path, int line) throws Exception {
         String projectName = Play.configuration.getProperty("application.name", "Unknown");
         VirtualFile vf = Play.roots.get(0);
         List files = getFiles(vf, new ArrayList());
@@ -35,18 +53,32 @@ public class AceEditor extends Controller {
         String src = IO.readContentAsString(file).trim();
         String currentFile = file.getAbsolutePath();
         String type = type(file);
-        renderTemplate("AceEditor/index.html", projectName, src, files, currentFile, type, line);
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("projectName", projectName);
+        params.put("src", src);
+        params.put("files", files);
+        params.put("currentFile", currentFile);
+        params.put("type", type);
+        params.put("line", line);
+        response.contentType = "text/html";
+        for (VirtualFile f : Play.roots) {
+            if (f.getName().equals("ace")) {
+                VirtualFile root = f;
+                root = root.child("/app/views/AceEditor/index.html");
+                renderGroovytemplate(root.getRealFile(), params, response.out);
+            }
+        }
     }
 
-    public static void save(String currentFile, String src) {
+    public static void save(Http.Request request, Http.Response response, String currentFile, String src) throws Exception {
+        response.contentType = "text/plain";
         if (currentFile.equals("NONE")) {
-            renderText("");
+            response.out.write("".getBytes("utf-8"), 0, 0);
         } else {
-            //VirtualFile vf = Play.roots.get(0);
-            //vf = vf.child("app/controllers/Application.java");
             File vf = new File(currentFile);
             IO.writeContent(src, vf);
-            renderText(IO.readContentAsString(vf).trim());
+            byte[] content = IO.readContentAsString(vf).trim().getBytes("utf-8");
+            response.out.write(content, 0, content.length);
         }
     }
 
@@ -140,5 +172,21 @@ public class AceEditor extends Controller {
             this.name = name;
             this.displayPath = displayPath;
         }
+    }
+
+    private static final SimpleTemplateEngine engine = new SimpleTemplateEngine();
+
+    private static final ConcurrentHashMap<File, Template> templates =
+            new ConcurrentHashMap<File, groovy.text.Template>();
+
+    private static void renderGroovytemplate(File file, Map<String, Object> context, OutputStream os) throws Exception {
+        OutputStreamWriter osw = new OutputStreamWriter(os);
+        if (!templates.containsKey(file)) {
+            String code = IO.readContentAsString(file);
+            code = code.replace("$.", "\\$.").replace("$(", "\\$(");
+            Template template = engine.createTemplate(code);
+            templates.putIfAbsent(file, template);
+        }
+        templates.get(file).make(context).writeTo(osw);
     }
 }
