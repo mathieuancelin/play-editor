@@ -86,6 +86,18 @@ public class AceEditor {
         }
     }
 
+    public static void createFile(Http.Request request, Http.Response response, String name) {
+
+    }
+
+    public static void deleteFile(Http.Request request, Http.Response response, String name) {
+
+    }
+
+    public static void insertSnippet(Http.Request request, Http.Response response, String snippetId) {
+
+    }
+
     private static List<SourceFile> getFiles(VirtualFile file, List<SourceFile> files) {
         VirtualFile vf = Play.roots.get(0);
         for (VirtualFile f : file.list()) {
