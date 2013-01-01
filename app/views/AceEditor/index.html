@@ -38,6 +38,7 @@
                         <button id="settings" class="btn btn-small btn-primary"><i class="icon-wrench icon-white"></i></button>
                         -->
 
+                        <button id="createdir" class="btn btn-small btn-primary"><i class="icon-folder-open icon-white"></i></button>
                         <button id="create" class="btn btn-small btn-primary"><i class="icon-file icon-white"></i></button>
                         <button id="delete" class="btn btn-small btn-danger"><i class="icon-trash icon-white"></i></button>
                         <button id="run" class="btn btn-small btn-success"><i class="icon-play icon-white"></i></button>
@@ -148,6 +149,9 @@
                 });
                 return editor;
             };
+            var refreshIDE = function() {
+                window.location.href = window.location.href;
+            }
             $(document).ready(function() {
                 editor = configureEditor();
                 $('#savefile').click(function(e) {
@@ -158,9 +162,31 @@
                     e.preventDefault();
                     launchFile(editor);
                 });
+                $('#create').click(function(e) {
+                    e.preventDefault();
+                    $.post('/@editor/create', {name: prompt('File path in app ?')}, function(data) {
+                        refreshIDE();
+                    });
+                });
+                $('#createdir').click(function(e) {
+                    e.preventDefault();
+                    $.post('/@editor/createdir', {name: prompt('Dir path in app ?')}, function(data) {
+                        refreshIDE();
+                    });
+                });
+                $('#delete').click(function(e) {
+                    e.preventDefault();
+                    var name = $('#currentFileValue').html();
+                    var r = confirm("Do you really want to delete " + name);
+                    if (r==true) {
+                        $.post('/@editor/delete', {name: name}, function(data) {
+                            refreshIDE();
+                        });
+                    }
+                });
                 $('#refreshfile').click(function(e) {
                     e.preventDefault();
-                    window.location.href = window.location.href;
+                    refreshIDE();
                 });
                 $('.sourcefilelink').click(function(e) {
                     e.preventDefault();

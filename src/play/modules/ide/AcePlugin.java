@@ -33,6 +33,18 @@ public class AcePlugin extends PlayPlugin {
                     String src = request.params.get("src");
                     AceEditor.save(request, response, currentFile, src);
                     return true;
+                } else if (request.url.startsWith("/@editor/delete")) {
+                    String currentFile = request.params.get("name");
+                    AceEditor.deleteFile(request, response, currentFile);
+                    return true;
+                } else if (request.url.startsWith("/@editor/createdir")) {
+                    String currentFile = request.params.get("name");
+                    AceEditor.createDir(request, response, currentFile);
+                    return true;
+                } else if (request.url.startsWith("/@editor/create")) {
+                    String currentFile = request.params.get("name");
+                    AceEditor.createFile(request, response, currentFile);
+                    return true;
                 } else if (request.url.startsWith("/@editor")) {
                     AceEditor.index(request, response);
                     return true;

@@ -3,6 +3,7 @@ package play.modules.ide;
 import groovy.text.SimpleTemplateEngine;
 import groovy.text.Template;
 import play.Play;
+import play.libs.Files;
 import play.libs.IO;
 
 import java.io.File;
@@ -92,12 +93,22 @@ public class AceEditor {
         }
     }
 
-    public static void createFile(Http.Request request, Http.Response response, String name) {
-
+    public static void createFile(Http.Request request, Http.Response response, String name) throws Exception {
+        new File(Play.roots.get(0).getRealFile().getAbsolutePath() + name).createNewFile();
+        response.contentType = "text/plain";
+        response.out.write("".getBytes("utf-8"), 0, 0);
     }
 
-    public static void deleteFile(Http.Request request, Http.Response response, String name) {
+    public static void createDir(Http.Request request, Http.Response response, String name) throws Exception {
+        new File(Play.roots.get(0).getRealFile().getAbsolutePath() + name).mkdirs();
+        response.contentType = "text/plain";
+        response.out.write("".getBytes("utf-8"), 0, 0);
+    }
 
+    public static void deleteFile(Http.Request request, Http.Response response, String name) throws Exception {
+        Files.delete(new File(name));
+        response.contentType = "text/plain";
+        response.out.write("".getBytes("utf-8"), 0, 0);
     }
 
     public static void insertSnippet(Http.Request request, Http.Response response, String snippetId) {
