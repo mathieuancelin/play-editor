@@ -8,22 +8,24 @@ import play.libs.IO;
 import java.io.File;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.net.URLEncoder;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 import play.mvc.Http;
+import play.utils.HTML;
 import play.vfs.VirtualFile;
 
 public class AceEditor {
 
     // TODO : add snippets
-    // TODO : add more key shortcuts for testing ??
-    // TODO : vi mode ?
     // TODO : shortcuts link => https://github.com/ajaxorg/ace/wiki/Default-Keyboard-Shortcuts
     public static void index(Http.Request request, Http.Response response) throws Exception {
         String projectName = Play.configuration.getProperty("application.name", "Unknown");
         VirtualFile vf = Play.roots.get(0);
         List<SourceFile> files = getFiles(vf, new ArrayList<SourceFile>());
+        Node node = new Node(vf.getName(), vf.getRealFile().getAbsolutePath());
+        getFileTree(vf, node);
         vf = vf.child("/app/controllers/Application.java");
         String src = "";
         String currentFile = "NONE";
@@ -39,6 +41,7 @@ public class AceEditor {
         params.put("currentFile", currentFile);
         params.put("type", type);
         params.put("line", 0);
+        params.put("node", node);
         response.contentType = "text/html";
         for (VirtualFile f : Play.roots) {
             if (f.getName().equals("ace")) {
@@ -53,6 +56,8 @@ public class AceEditor {
         String projectName = Play.configuration.getProperty("application.name", "Unknown");
         VirtualFile vf = Play.roots.get(0);
         List<SourceFile> files = getFiles(vf, new ArrayList<SourceFile>());
+        Node node = new Node(vf.getName(), vf.getRealFile().getAbsolutePath());
+        getFileTree(vf, node);
         File file = new File(path);
         String src = IO.readContentAsString(file).trim();
         String currentFile = file.getAbsolutePath();
@@ -64,6 +69,7 @@ public class AceEditor {
         params.put("currentFile", currentFile);
         params.put("type", type);
         params.put("line", line);
+        params.put("node", node);
         response.contentType = "text/html";
         for (VirtualFile f : Play.roots) {
             if (f.getName().equals("ace")) {
@@ -111,6 +117,16 @@ public class AceEditor {
             }
         }
         return files;
+    }
+
+    private static void getFileTree(VirtualFile file, Node tree) {
+        for (VirtualFile f : file.list()) {
+            Node node = new Node(f.getName(), f.getRealFile().getAbsolutePath());
+            tree.addChild(node);
+            if (f.isDirectory()) {
+                getFileTree(f, node);
+            }
+        }
     }
 
     private static boolean isValid(String path) {
@@ -192,6 +208,54 @@ public class AceEditor {
         }
     }
 
+    public static class Node {
+        public String name;
+        public String fullPath;
+        public List<Node> children = new ArrayList<Node>();
+        public Node(String name, String fullPath) {
+            this.name = name;
+            this.fullPath = fullPath;
+        }
+        public boolean isLeaf() {
+            return children.isEmpty();
+        }
+        public void addChild(Node child) {
+            this.children.add(child);
+        }
+        public String toHTML() {
+            if (isLeaf()) {
+                return "<li class=\"file\"><a class=\"sourcefilelink\" data-type=\"" + type(new File(fullPath))
+                        + "\" data-path=\"" + fullPath
+                        + "\" href=\"/@editor/file?path="
+                        + URLEncoder.encode(fullPath) + "&line=0\">" + HTML.htmlEscape(name) + "</a></li>";
+            } else {
+                Collections.sort(children, new Comparator<Node>() {
+                    @Override
+                    public int compare(Node node, Node node2) {
+                        if (node.isLeaf() && node2.isLeaf()) { return 0; }
+                        if (!node.isLeaf() && !node2.isLeaf()) { return 0; }
+                        if (node.isLeaf()) { return 1; }
+                        if (node2.isLeaf()) { return -1; }
+                        return 0;
+                    }
+                });
+                StringBuilder builder = new StringBuilder();
+                long id = System.nanoTime();
+                builder.append("<li><label for=\"folder")
+                        .append(id).append("\">")
+                        .append(HTML.htmlEscape(name))
+                        .append("</label> <input type=\"checkbox\" id=\"folder")
+                        .append(id)
+                        .append("\" /><ol>");
+                for (Node node : children) {
+                    builder.append(node.toHTML());
+                }
+                builder.append("</ol></li>");
+                return builder.toString();
+            }
+        }
+    }
+
     private static final SimpleTemplateEngine engine = new SimpleTemplateEngine();
 
     private static final ConcurrentHashMap<File, Template> templates =
@@ -199,12 +263,13 @@ public class AceEditor {
 
     private static void renderGroovytemplate(File file, Map<String, Object> context, OutputStream os) throws Exception {
         OutputStreamWriter osw = new OutputStreamWriter(os);
-        if (!templates.containsKey(file)) {
+        //if (!templates.containsKey(file)) {
             String code = IO.readContentAsString(file);
             code = code.replace("$.", "\\$.").replace("$(", "\\$(");
             Template template = engine.createTemplate(code);
-            templates.putIfAbsent(file, template);
-        }
+            //templates.putIfAbsent(file, template);
+            templates.put(file, template);
+        //}
         templates.get(file).make(context).writeTo(osw);
     }
 }

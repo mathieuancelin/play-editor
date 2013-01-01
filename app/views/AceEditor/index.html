@@ -5,6 +5,7 @@
         <meta charset="UTF-8">
         <link rel="stylesheet" media="screen" href="/public/aceeditor/stylesheets/main.css">
         <link rel="stylesheet" media="screen" href="/public/aceeditor/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" media="screen" href="/public/aceeditor/csstree/csstree.css">
         <script src="/public/aceeditor/javascripts/jquery-1.8.2.min.js" type="text/javascript"
                     charset="utf-8"></script>
         <script src="/public/aceeditor/ace/ace.js" type="text/javascript" charset="utf-8"></script>
@@ -24,7 +25,7 @@
             </div>
         </div>
         <div class="container-fluid">
-            <div class="row-fluid">
+            <div class="row-fluid" id="columns">
                 <div class="span3">
                     <h4>Project : '${projectName}'</h4>
                     <div class="btn-group">
@@ -66,20 +67,27 @@
                     <h5>Project source files</h5>
                     <div id="listTree"></div>
 
+                    <ol class="tree">
+                        ${node.toHTML()}
+                    </ol>
+                    <!--
                     <ul id="files" class="unstyled">
                         <% files.each { file -> %>
-                            <li><a href="/@editor/file?path=${java.net.URLEncoder.encode(file.path)}&line=0">${file.displayPath}</a></li>
+                        <li><a href="/@editor/file?path=${java.net.URLEncoder.encode(file.path)}&line=0">${file.displayPath}</a></li>
                         <% } %>
                     </ul>
+                    -->
                 </div>
-                <div class="span9">
+                <div class="span9" id="righcolumn">
                     <div id="editor" class="span9">${play.utils.HTML.htmlEscape(src)}</div>
                 </div>
             </div>
         </div>
-
+        <div id="currentFileValue" class="hide">${currentFile}</div>
+        <div id="typeOfFileValue" class="hide">${type}</div>
+        <div id="findcontainer" class="hide"></div>
         <script>
-            var currentFile = '${currentFile}';
+            var editor;
             var setContextualMessageFor2Sec = function(text) {
                 $('#message').css('font-style', 'normal');
                 $('#message').html(text);
@@ -95,7 +103,7 @@
             var saveFile = function(editor) {
                 var src = editor.getValue();
                 setContextualMessageFor('Saving ...');
-                $.post('/@editor/save', {src: src, currentFile: currentFile}, function(data) {
+                $.post('/@editor/save', {src: src, currentFile: $('#currentFileValue').html()}, function(data) {
                     setContextualMessageFor2Sec('File saved !');
                     editor.getValue(data);
                 })
@@ -107,7 +115,7 @@
                 $('#testerframe').attr('src', url);
                 $('#tester').modal('show');
             };
-            $(document).ready(function() {
+            var configureEditor = function() {
                 var editor = ace.edit("editor");
                 editor.commands.addCommand({
                     name: 'saveFile',
@@ -126,7 +134,7 @@
                     readOnly: true
                 });
                 editor.setTheme("ace/theme/monokai");
-                editor.getSession().setMode("${type}");
+                editor.getSession().setMode($('#typeOfFileValue').html());
                 editor.setHighlightActiveLine(true);
                 editor.getSession().setUseSoftTabs(true);
                 editor.getSession().setTabSize(4);
@@ -138,6 +146,10 @@
                 editor.on("copy", function(text) {
                     setContextualMessageFor2Sec('Copy selected text ...');
                 });
+                return editor;
+            };
+            $(document).ready(function() {
+                editor = configureEditor();
                 $('#savefile').click(function(e) {
                     e.preventDefault();
                     saveFile(editor);
@@ -149,6 +161,18 @@
                 $('#refreshfile').click(function(e) {
                     e.preventDefault();
                     window.location.href = window.location.href;
+                });
+                $('.sourcefilelink').click(function(e) {
+                    e.preventDefault();
+                    var url = $(this).attr('href');
+                    var currentFile = $(this).data('path');
+                    var type = $(this).data('type');
+                    console.log(currentFile + " " + type);
+                    $('#righcolumn').load(url + ' #editor', function(data) {
+                        $('#currentFileValue').html(currentFile);
+                        $('#typeOfFileValue').html(type);
+                        editor = configureEditor();
+                    });
                 });
                 $('#message').css('font-style', 'italic');
             })
