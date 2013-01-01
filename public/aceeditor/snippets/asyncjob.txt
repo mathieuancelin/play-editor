@@ -1,3 +1,9 @@
+package jobs;
+
+import play.*;
+import play.libs.*;
+import play.jobs.*;
+
 public class MyJob extends play.jobs.Job {
      
     public void doJob()  throws Exception {

@@ -29,24 +29,25 @@
                 <div class="span3">
                     <h4>Project : '${projectName}'</h4>
                     <div class="btn-group">
-                        <button id="savefile" class="btn btn-small btn-primary"><i class="icon-hdd icon-white"></i></button>
-                        <button id="refreshfile" class="btn btn-small btn-primary"><i class="icon-refresh icon-white"></i></button>
+                        <button id="savefile" title="Save current file" class="btn btn-small btn-primary"><i class="icon-hdd icon-white"></i></button>
+                        <button id="refreshfile" title="Refresh IDE" class="btn btn-small btn-primary"><i class="icon-refresh icon-white"></i></button>
                         <!--
                         <button id="status" class="btn btn-small btn-primary"><i class="icon-list-alt icon-white"></i></button>
                         <button id="search" class="btn btn-small btn-primary"><i class="icon-search icon-white"></i></button>
                         <button id="settings" class="btn btn-small btn-primary"><i class="icon-wrench icon-white"></i></button>
                         -->
-                        <button id="createdir" class="btn btn-small btn-info"><i class="icon-folder-open icon-white"></i></button>
-                        <button id="create" class="btn btn-small btn-info"><i class="icon-file icon-white"></i></button>
-                        <button id="delete" class="btn btn-small btn-danger"><i class="icon-trash icon-white"></i></button>
-                        <button id="run" class="btn btn-small btn-success"><i class="icon-play icon-white"></i></button>
-                        <button id="link" class="btn btn-small btn-primary"><i class="icon-share icon-white"></i></button>
-                        <button id="snippet" class="btn btn-small btn-primary dropdown-toggle" data-toggle="dropdown"><i class="icon-leaf icon-white"></i></button>
+                        <button id="createdir" title="Create a new directory" class="btn btn-small btn-info"><i class="icon-folder-open icon-white"></i></button>
+                        <button id="create" title="Create a new file" class="btn btn-small btn-info"><i class="icon-file icon-white"></i></button>
+                        <button id="delete" title="Delete current file" class="btn btn-small btn-danger"><i class="icon-trash icon-white"></i></button>
+                        <button id="run" title="Run/Display application" class="btn btn-small btn-success"><i class="icon-play icon-white"></i></button>
+                        <button id="link" title="Go to file" class="btn btn-small btn-primary"><i class="icon-share icon-white"></i></button>
+                        <button id="snippet" title="Insert snippet" class="btn btn-small btn-primary dropdown-toggle" data-toggle="dropdown"><i class="icon-leaf icon-white"></i></button>
                         <ul class="dropdown-menu">
                             <li><a href="#" onclick="insert('controller');">Controller</a></li>
                             <li><a href="#" onclick="insert('action');">Action</a></li>
                             <li class="divider"></li>
                             <li><a href="#" onclick="insert('model');">Model</a></li>
+                            <li><a href="#" onclick="insert('rollback');">Rollback transaction</a></li>
                             <li class="divider"></li>
                             <li><a href="#" onclick="insert('wsget');">WS call</a></li>
                             <li class="divider"></li>
@@ -59,6 +60,9 @@
                             <li><a href="#" onclick="insert('cacheget');">Cache get</a></li>
                             <li><a href="#" onclick="insert('cacheclear');">Cache clear</a></li>
                             <li><a href="#" onclick="insert('cacherem');">Cache remove</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#" onclick="insert('template');">View template</a></li>
+                            <li><a href="#" onclick="insert('foreach');">For each loop</a></li>
                         </ul>
                     </div>
                     <br/>

@@ -1,3 +1,4 @@
 public static void index() {
-        render();
-    }
+    String message = "Hello World";
+    render(message);
+}

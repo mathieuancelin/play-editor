@@ -1,0 +1,5 @@
+<ul class="unstyled">
+    #{list items, as:'item'}
+        <li>${item.name}</li>
+    #{/list}
+</ul>

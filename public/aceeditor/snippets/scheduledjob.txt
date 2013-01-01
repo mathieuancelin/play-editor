@@ -1,3 +1,9 @@
+package jobs;
+
+import play.*;
+import play.libs.*;
+import play.jobs.*;
+
 @play.jobs.Every("1h")
 public class MyJob extends play.jobs.Job {
      

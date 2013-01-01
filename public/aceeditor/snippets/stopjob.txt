@@ -1,3 +1,9 @@
+package jobs;
+
+import play.*;
+import play.libs.*;
+import play.jobs.*;
+
 @play.jobs.OnApplicationStop
 public class MyJob extends play.jobs.Job {
      
