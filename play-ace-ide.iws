@@ -2,20 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/aceeditor/snippets/foreach.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/aceeditor/snippets/rollback.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/aceeditor/snippets/template.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/play-ace.jar" afterPath="$PROJECT_DIR$/lib/play-ace.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/aceeditor/snippets/action.txt" afterPath="$PROJECT_DIR$/public/aceeditor/snippets/action.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/aceeditor/snippets/asyncjob.txt" afterPath="$PROJECT_DIR$/public/aceeditor/snippets/asyncjob.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/aceeditor/snippets/controller.txt" afterPath="$PROJECT_DIR$/public/aceeditor/snippets/controller.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/AceEditor/index.html" afterPath="$PROJECT_DIR$/app/views/AceEditor/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/aceeditor/snippets/model.txt" afterPath="$PROJECT_DIR$/public/aceeditor/snippets/model.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/play-ace-ide.iws" afterPath="$PROJECT_DIR$/play-ace-ide.iws" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/aceeditor/snippets/scheduledjob.txt" afterPath="$PROJECT_DIR$/public/aceeditor/snippets/scheduledjob.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/aceeditor/snippets/startjob.txt" afterPath="$PROJECT_DIR$/public/aceeditor/snippets/startjob.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/aceeditor/snippets/stopjob.txt" afterPath="$PROJECT_DIR$/public/aceeditor/snippets/stopjob.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/aceeditor/snippets/wsget.txt" afterPath="$PROJECT_DIR$/public/aceeditor/snippets/wsget.txt" />
     </list>
     <ignored path="play-ace-ide.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -121,7 +108,7 @@
       <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views/AceEditor/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="32" column="67" selection-start="1793" selection-end="1793" vertical-scroll-proportion="0.19626169">
+            <state line="32" column="67" selection-start="1793" selection-end="1793" vertical-scroll-proportion="-0.22429906">
               <folding />
             </state>
           </provider>
@@ -773,7 +760,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/AceEditor/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="67" selection-start="1793" selection-end="1793" vertical-scroll-proportion="0.19626169">
+        <state line="32" column="67" selection-start="1793" selection-end="1793" vertical-scroll-proportion="-0.22429906">
           <folding />
         </state>
       </provider>
