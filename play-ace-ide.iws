@@ -4,14 +4,12 @@
     <list default="true" id="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/play-ace.jar" afterPath="$PROJECT_DIR$/lib/play-ace.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/play/modules/ide/AceEditor.java" afterPath="$PROJECT_DIR$/src/play/modules/ide/AceEditor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/play/modules/ide/AcePlugin.java" afterPath="$PROJECT_DIR$/src/play/modules/ide/AcePlugin.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/AceEditor/index.html" afterPath="$PROJECT_DIR$/app/views/AceEditor/index.html" />
     </list>
     <ignored path="play-ace-ide.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Dummy.txt" changelist="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" time="1356978674405" ignored="false" />
     <file path="/AcePlugin.java" changelist="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" time="1357060073759" ignored="false" />
-    <file path="/AceEditor.java" changelist="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" time="1357059811160" ignored="false" />
+    <file path="/AceEditor.java" changelist="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" time="1357060561258" ignored="false" />
     <file path="/index.html" changelist="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" time="1357059888957" ignored="false" />
     <file path="/main.css" changelist="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" time="1356995727339" ignored="false" />
     <file path="/csstree.css" changelist="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" time="1357053929137" ignored="false" />
@@ -74,27 +72,27 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="AceEditor.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="AceEditor.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/play/modules/ide/AceEditor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="102" column="83" selection-start="4307" selection-end="4307" vertical-scroll-proportion="0.0">
+            <state line="141" column="54" selection-start="5752" selection-end="5752" vertical-scroll-proportion="0.51699466">
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1331#1347#0" expanded="true" />
-                <element signature="e#2633#2649#0" expanded="true" />
-                <element signature="e#8320#8326#0" expanded="true" />
-                <element signature="e#9092#9552#0" expanded="true" />
-                <element signature="e#9533#9534#0" expanded="true" />
-                <element signature="e#10409#10437#0" expanded="true" />
+                <element signature="e#1337#1353#0" expanded="true" />
+                <element signature="e#2645#2661#0" expanded="true" />
+                <element signature="e#8566#8572#0" expanded="true" />
+                <element signature="e#9555#10015#0" expanded="true" />
+                <element signature="e#9996#9997#0" expanded="true" />
+                <element signature="e#11014#11042#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AcePlugin.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="AcePlugin.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/play/modules/ide/AcePlugin.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="35" column="43" selection-start="1563" selection-end="1563" vertical-scroll-proportion="0.65909094">
+            <state line="11" column="31" selection-start="237" selection-end="237" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -133,9 +131,9 @@
         <option value="$PROJECT_DIR$/conf/routes" />
         <option value="$PROJECT_DIR$/public/aceeditor/stylesheets/main.css" />
         <option value="$PROJECT_DIR$/public/aceeditor/csstree/csstree.css" />
-        <option value="$PROJECT_DIR$/src/play/modules/ide/AceEditor.java" />
         <option value="$PROJECT_DIR$/app/views/AceEditor/index.html" />
         <option value="$PROJECT_DIR$/src/play/modules/ide/AcePlugin.java" />
+        <option value="$PROJECT_DIR$/src/play/modules/ide/AceEditor.java" />
       </list>
     </option>
   </component>
@@ -659,26 +657,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/play/modules/ide/AceEditor.java">
+    <entry file="file://$PROJECT_DIR$/src/play/modules/ide/AcePlugin.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="102" column="83" selection-start="4307" selection-end="4307" vertical-scroll-proportion="0.0">
+        <state line="11" column="31" selection-start="237" selection-end="237" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1331#1347#0" expanded="true" />
-            <element signature="e#2633#2649#0" expanded="true" />
-            <element signature="e#8320#8326#0" expanded="true" />
-            <element signature="e#9092#9552#0" expanded="true" />
-            <element signature="e#9533#9534#0" expanded="true" />
-            <element signature="e#10409#10437#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/play/modules/ide/AcePlugin.java">
+    <entry file="file://$PROJECT_DIR$/src/play/modules/ide/AceEditor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="43" selection-start="1563" selection-end="1563" vertical-scroll-proportion="0.65909094">
+        <state line="141" column="54" selection-start="5752" selection-end="5752" vertical-scroll-proportion="0.51699466">
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#1337#1353#0" expanded="true" />
+            <element signature="e#2645#2661#0" expanded="true" />
+            <element signature="e#8566#8572#0" expanded="true" />
+            <element signature="e#9555#10015#0" expanded="true" />
+            <element signature="e#9996#9997#0" expanded="true" />
+            <element signature="e#11014#11042#0" expanded="true" />
           </folding>
         </state>
       </provider>

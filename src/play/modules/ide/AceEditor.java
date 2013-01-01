@@ -25,7 +25,7 @@ public class AceEditor {
         String projectName = Play.configuration.getProperty("application.name", "Unknown");
         VirtualFile vf = Play.roots.get(0);
         List<SourceFile> files = getFiles(vf, new ArrayList<SourceFile>());
-        Node node = new Node(vf.getName(), vf.getRealFile().getAbsolutePath());
+        Node node = new Node(vf.getName(), vf.getRealFile().getAbsolutePath(), true);
         getFileTree(vf, node);
         vf = vf.child("/app/controllers/Application.java");
         String src = "";
@@ -57,7 +57,7 @@ public class AceEditor {
         String projectName = Play.configuration.getProperty("application.name", "Unknown");
         VirtualFile vf = Play.roots.get(0);
         List<SourceFile> files = getFiles(vf, new ArrayList<SourceFile>());
-        Node node = new Node(vf.getName(), vf.getRealFile().getAbsolutePath());
+        Node node = new Node(vf.getName(), vf.getRealFile().getAbsolutePath(), true);
         getFileTree(vf, node);
         File file = new File(path);
         String src = IO.readContentAsString(file).trim();
@@ -133,7 +133,7 @@ public class AceEditor {
     private static void getFileTree(VirtualFile file, Node tree) {
         for (VirtualFile f : file.list()) {
             Node node = new Node(f.getName(), f.getRealFile().getAbsolutePath());
-            tree.addChild(node);
+            if (isValid2(node.name)) tree.addChild(node);
             if (f.isDirectory()) {
                 getFileTree(f, node);
             }
@@ -159,6 +159,14 @@ public class AceEditor {
         } else if (path.startsWith("/modules")) {
             return false;
         } else if (path.contains("DS_Store")) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private static boolean isValid2(String path) {
+        if (path.contains("DS_Store")) {
             return false;
         } else {
             return true;
@@ -220,12 +228,19 @@ public class AceEditor {
     }
 
     public static class Node {
+        public boolean isFirst;
         public String name;
         public String fullPath;
         public List<Node> children = new ArrayList<Node>();
         public Node(String name, String fullPath) {
             this.name = name;
             this.fullPath = fullPath;
+            this.isFirst = false;
+        }
+        public Node(String name, String fullPath, boolean isFirst) {
+            this.name = name;
+            this.fullPath = fullPath;
+            this.isFirst = isFirst;
         }
         public boolean isLeaf() {
             return children.isEmpty();
@@ -257,7 +272,11 @@ public class AceEditor {
                         .append(HTML.htmlEscape(name))
                         .append("</label> <input type=\"checkbox\" id=\"folder")
                         .append(id)
-                        .append("\" /><ol>");
+                        .append("\" ");
+                if (isFirst) {
+                    builder.append("checked disabled");
+                }
+                builder.append(" /><ol>");
                 for (Node node : children) {
                     builder.append(node.toHTML());
                 }
