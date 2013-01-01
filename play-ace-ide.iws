@@ -3,16 +3,15 @@
   <component name="ChangeListManager">
     <list default="true" id="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/play-ace.jar" afterPath="$PROJECT_DIR$/lib/play-ace.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/play/modules/ide/AceEditor.java" afterPath="$PROJECT_DIR$/src/play/modules/ide/AceEditor.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/AceEditor/index.html" afterPath="$PROJECT_DIR$/app/views/AceEditor/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/aceeditor/stylesheets/main.css" afterPath="$PROJECT_DIR$/public/aceeditor/stylesheets/main.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/play-ace-ide.iws" afterPath="$PROJECT_DIR$/play-ace-ide.iws" />
     </list>
     <ignored path="play-ace-ide.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Dummy.txt" changelist="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" time="1356978674405" ignored="false" />
     <file path="/AcePlugin.java" changelist="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" time="1356993423736" ignored="false" />
     <file path="/AceEditor.java" changelist="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" time="1357032554898" ignored="false" />
-    <file path="/index.html" changelist="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" time="1357035910620" ignored="false" />
+    <file path="/index.html" changelist="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" time="1357039206788" ignored="false" />
     <file path="/main.css" changelist="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" time="1356995727339" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -98,19 +97,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views/AceEditor/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="58" column="60" selection-start="3600" selection-end="3600" vertical-scroll-proportion="-8.571428">
+            <state line="103" column="25" selection-start="5570" selection-end="5570" vertical-scroll-proportion="0.3846154">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.css" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="main.css" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/aceeditor/stylesheets/main.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="0" selection-start="203" selection-end="203" vertical-scroll-proportion="0.47202796">
+            <state line="14" column="17" selection-start="188" selection-end="188" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -138,8 +137,8 @@
         <option value="$PROJECT_DIR$/conf/routes" />
         <option value="$PROJECT_DIR$/src/play/modules/ide/AcePlugin.java" />
         <option value="$PROJECT_DIR$/src/play/modules/ide/AceEditor.java" />
-        <option value="$PROJECT_DIR$/app/views/AceEditor/index.html" />
         <option value="$PROJECT_DIR$/public/aceeditor/stylesheets/main.css" />
+        <option value="$PROJECT_DIR$/app/views/AceEditor/index.html" />
       </list>
     </option>
   </component>
@@ -428,6 +427,24 @@
     </configuration>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="SvnConfiguration" maxAnnotateRevisions="500" myUseAcceleration="nothing" myAutoUpdateAfterCommit="false" cleanupOnStartRun="false">
+    <option name="USER" value="" />
+    <option name="PASSWORD" value="" />
+    <option name="mySSHConnectionTimeout" value="30000" />
+    <option name="mySSHReadTimeout" value="30000" />
+    <option name="LAST_MERGED_REVISION" />
+    <option name="MERGE_DRY_RUN" value="false" />
+    <option name="MERGE_DIFF_USE_ANCESTRY" value="true" />
+    <option name="UPDATE_LOCK_ON_DEMAND" value="false" />
+    <option name="IGNORE_SPACES_IN_MERGE" value="false" />
+    <option name="DETECT_NESTED_COPIES" value="true" />
+    <option name="CHECK_NESTED_FOR_QUICK_MERGE" value="false" />
+    <option name="IGNORE_SPACES_IN_ANNOTATE" value="true" />
+    <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
+    <option name="FORCE_UPDATE" value="false" />
+    <option name="IGNORE_EXTERNALS" value="false" />
+    <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" name="Default" comment="" />
@@ -440,7 +457,7 @@
     <frame x="0" y="22" width="1280" height="718" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -609,16 +626,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/AceEditor/index.html">
+    <entry file="file://$PROJECT_DIR$/public/aceeditor/stylesheets/main.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="58" column="60" selection-start="3600" selection-end="3600" vertical-scroll-proportion="-8.571428">
+        <state line="14" column="17" selection-start="188" selection-end="188" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/aceeditor/stylesheets/main.css">
+    <entry file="file://$PROJECT_DIR$/app/views/AceEditor/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="0" selection-start="203" selection-end="203" vertical-scroll-proportion="0.47202796">
+        <state line="103" column="25" selection-start="5570" selection-end="5570" vertical-scroll-proportion="0.3846154">
           <folding />
         </state>
       </provider>

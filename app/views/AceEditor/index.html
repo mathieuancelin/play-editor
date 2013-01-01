@@ -94,7 +94,8 @@
                     editor.getValue(data);
                 })
             };
-            var launchFile = function() {
+            var launchFile = function(editor) {
+                saveFile(editor);
                 $('#testerframe').attr('src', '');
                 var url = $('#testurl').val();
                 $('#testerframe').attr('src', url);
@@ -114,7 +115,7 @@
                     name: 'launchFile',
                     bindKey: {win: 'Ctrl-B',  mac: 'Command-B'},
                     exec: function(editor) {
-                        launchFile()
+                        launchFile(editor)
                     },
                     readOnly: true
                 });
