@@ -180,6 +180,9 @@ public class AceEditor {
         if (f.getAbsolutePath().contains("/conf/messages")) {
             return "ace/mode/java";
         }
+        if (f.getAbsolutePath().contains("/conf/routes")) {
+            return "ace/mode/java";
+        }
         if (f.getAbsolutePath().endsWith(".java")) {
             return "ace/mode/java";
         }

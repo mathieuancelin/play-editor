@@ -1,0 +1,7 @@
+@play.jobs.Every("1h")
+public class MyJob extends play.jobs.Job {
+     
+    public void doJob()  throws Exception {
+         
+    }
+}

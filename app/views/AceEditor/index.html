@@ -31,35 +31,34 @@
                     <div class="btn-group">
                         <button id="savefile" class="btn btn-small btn-primary"><i class="icon-hdd icon-white"></i></button>
                         <button id="refreshfile" class="btn btn-small btn-primary"><i class="icon-refresh icon-white"></i></button>
-
                         <!--
                         <button id="status" class="btn btn-small btn-primary"><i class="icon-list-alt icon-white"></i></button>
                         <button id="search" class="btn btn-small btn-primary"><i class="icon-search icon-white"></i></button>
                         <button id="settings" class="btn btn-small btn-primary"><i class="icon-wrench icon-white"></i></button>
                         -->
-
-                        <button id="createdir" class="btn btn-small btn-primary"><i class="icon-folder-open icon-white"></i></button>
-                        <button id="create" class="btn btn-small btn-primary"><i class="icon-file icon-white"></i></button>
+                        <button id="createdir" class="btn btn-small btn-info"><i class="icon-folder-open icon-white"></i></button>
+                        <button id="create" class="btn btn-small btn-info"><i class="icon-file icon-white"></i></button>
                         <button id="delete" class="btn btn-small btn-danger"><i class="icon-trash icon-white"></i></button>
                         <button id="run" class="btn btn-small btn-success"><i class="icon-play icon-white"></i></button>
+                        <button id="link" class="btn btn-small btn-primary"><i class="icon-share icon-white"></i></button>
                         <button id="snippet" class="btn btn-small btn-primary dropdown-toggle" data-toggle="dropdown"><i class="icon-leaf icon-white"></i></button>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Controller</a></li>
-                            <li><a href="#">Action</a></li>
+                            <li><a href="#" onclick="insert('controller');">Controller</a></li>
+                            <li><a href="#" onclick="insert('action');">Action</a></li>
                             <li class="divider"></li>
-                            <li><a href="#">Model</a></li>
+                            <li><a href="#" onclick="insert('model');">Model</a></li>
                             <li class="divider"></li>
-                            <li><a href="#">WS call</a></li>
+                            <li><a href="#" onclick="insert('wsget');">WS call</a></li>
                             <li class="divider"></li>
-                            <li><a href="#">Asynchronous job</a></li>
-                            <li><a href="#">Scheduled job</a></li>
-                            <li><a href="#">On start job</a></li>
-                            <li><a href="#">On stop job</a></li>
+                            <li><a href="#" onclick="insert('asyncjob');">Asynchronous job</a></li>
+                            <li><a href="#" onclick="insert('scheduledjob');">Scheduled job</a></li>
+                            <li><a href="#" onclick="insert('startjob');">On start job</a></li>
+                            <li><a href="#" onclick="insert('stopjob');">On stop job</a></li>
                             <li class="divider"></li>
-                            <li><a href="#">Cache add</a></li>
-                            <li><a href="#">Cache get</a></li>
-                            <li><a href="#">Cache clear</a></li>
-                            <li><a href="#">Cache remove</a></li>
+                            <li><a href="#" onclick="insert('cacheadd');">Cache add</a></li>
+                            <li><a href="#" onclick="insert('cacheget');">Cache get</a></li>
+                            <li><a href="#" onclick="insert('cacheclear');">Cache clear</a></li>
+                            <li><a href="#" onclick="insert('cacherem');">Cache remove</a></li>
                         </ul>
                     </div>
                     <br/>
@@ -89,6 +88,12 @@
         <div id="findcontainer" class="hide"></div>
         <script>
             var editor;
+            var insert = function(key) {
+                $.get('/public/aceeditor/snippets/' + key + '.txt', function(data) {
+                    console.log(data)
+                    editor.insert(data);
+                });
+            };
             var setContextualMessageFor2Sec = function(text) {
                 $('#message').css('font-style', 'normal');
                 $('#message').html(text);
@@ -106,7 +111,7 @@
                 setContextualMessageFor('Saving ...');
                 $.post('/@editor/save', {src: src, currentFile: $('#currentFileValue').html()}, function(data) {
                     setContextualMessageFor2Sec('File saved !');
-                    editor.getValue(data);
+                    //editor.setValue(data);
                 })
             };
             var launchFile = function(editor) {
@@ -164,21 +169,27 @@
                 });
                 $('#create').click(function(e) {
                     e.preventDefault();
-                    $.post('/@editor/create', {name: prompt('File path in app ?')}, function(data) {
-                        refreshIDE();
-                    });
+                    var r = prompt('File path in app ?');
+                    if (r != "") {
+                        $.post('/@editor/create', {name: r}, function(data) {
+                            refreshIDE();
+                        });
+                    }
                 });
                 $('#createdir').click(function(e) {
                     e.preventDefault();
-                    $.post('/@editor/createdir', {name: prompt('Dir path in app ?')}, function(data) {
-                        refreshIDE();
-                    });
+                    var r = prompt('Dir path in app ?');
+                    if (r != "") {
+                        $.post('/@editor/createdir', {name: r}, function(data) {
+                            refreshIDE();
+                        });
+                    }
                 });
                 $('#delete').click(function(e) {
                     e.preventDefault();
                     var name = $('#currentFileValue').html();
                     var r = confirm("Do you really want to delete " + name);
-                    if (r==true) {
+                    if (r == true) {
                         $.post('/@editor/delete', {name: name}, function(data) {
                             refreshIDE();
                         });
@@ -188,12 +199,15 @@
                     e.preventDefault();
                     refreshIDE();
                 });
+                $('#link').click(function(e) {
+                    e.preventDefault();
+                    window.location.href = 'http://localhost:9000/@editor/file?path=' + encodeURIComponent($('#currentFileValue').html()) + "&line=" + editor.selection.getCursor().row;
+                });
                 $('.sourcefilelink').click(function(e) {
                     e.preventDefault();
                     var url = $(this).attr('href');
                     var currentFile = $(this).data('path');
                     var type = $(this).data('type');
-                    console.log(currentFile + " " + type);
                     $('#righcolumn').load(url + ' #editor', function(data) {
                         $('#currentFileValue').html(currentFile);
                         $('#typeOfFileValue').html(type);

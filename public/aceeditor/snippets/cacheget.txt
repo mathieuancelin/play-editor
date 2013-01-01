@@ -1,0 +1,1 @@
+play.cache.Cache.get("key", OfType.class);

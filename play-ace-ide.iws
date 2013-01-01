@@ -4,13 +4,15 @@
     <list default="true" id="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/play-ace.jar" afterPath="$PROJECT_DIR$/lib/play-ace.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/play/modules/ide/AceEditor.java" afterPath="$PROJECT_DIR$/src/play/modules/ide/AceEditor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/AceEditor/index.html" afterPath="$PROJECT_DIR$/app/views/AceEditor/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/play-ace-ide.iws" afterPath="$PROJECT_DIR$/play-ace-ide.iws" />
     </list>
     <ignored path="play-ace-ide.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Dummy.txt" changelist="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" time="1356978674405" ignored="false" />
-    <file path="/AcePlugin.java" changelist="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" time="1357060073759" ignored="false" />
+    <file path="/AcePlugin.java" changelist="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" time="1357067994592" ignored="false" />
     <file path="/AceEditor.java" changelist="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" time="1357060561258" ignored="false" />
-    <file path="/index.html" changelist="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" time="1357059888957" ignored="false" />
+    <file path="/index.html" changelist="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" time="1357068121286" ignored="false" />
     <file path="/main.css" changelist="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" time="1356995727339" ignored="false" />
     <file path="/csstree.css" changelist="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" time="1357053929137" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -72,19 +74,28 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="AceEditor.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="AceEditor.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/play/modules/ide/AceEditor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="141" column="54" selection-start="5752" selection-end="5752" vertical-scroll-proportion="0.51699466">
+            <state line="182" column="54" selection-start="7001" selection-end="7001" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1337#1353#0" expanded="true" />
                 <element signature="e#2645#2661#0" expanded="true" />
-                <element signature="e#8566#8572#0" expanded="true" />
-                <element signature="e#9555#10015#0" expanded="true" />
-                <element signature="e#9996#9997#0" expanded="true" />
-                <element signature="e#11014#11042#0" expanded="true" />
+                <element signature="e#8672#8678#0" expanded="true" />
+                <element signature="e#9661#10121#0" expanded="true" />
+                <element signature="e#10102#10103#0" expanded="true" />
+                <element signature="e#11120#11148#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/views/AceEditor/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="91" column="65" selection-start="5821" selection-end="5821" vertical-scroll-proportion="0.36448598">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -92,18 +103,7 @@
       <file leaf-file-name="AcePlugin.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/play/modules/ide/AcePlugin.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="31" selection-start="237" selection-end="237" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/AceEditor/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="172" column="46" selection-start="8781" selection-end="8790" vertical-scroll-proportion="-6.6666665">
+            <state line="4" column="0" selection-start="64" selection-end="65" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -131,9 +131,9 @@
         <option value="$PROJECT_DIR$/conf/routes" />
         <option value="$PROJECT_DIR$/public/aceeditor/stylesheets/main.css" />
         <option value="$PROJECT_DIR$/public/aceeditor/csstree/csstree.css" />
-        <option value="$PROJECT_DIR$/app/views/AceEditor/index.html" />
-        <option value="$PROJECT_DIR$/src/play/modules/ide/AcePlugin.java" />
         <option value="$PROJECT_DIR$/src/play/modules/ide/AceEditor.java" />
+        <option value="$PROJECT_DIR$/src/play/modules/ide/AcePlugin.java" />
+        <option value="$PROJECT_DIR$/app/views/AceEditor/index.html" />
       </list>
     </option>
   </component>
@@ -555,11 +555,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/conf/dependencies.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/play.plugins">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
@@ -650,34 +645,39 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/AceEditor/index.html">
+    <entry file="file://$PROJECT_DIR$/src/play/modules/ide/AceEditor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="172" column="46" selection-start="8781" selection-end="8790" vertical-scroll-proportion="-6.6666665">
+        <state line="182" column="54" selection-start="7001" selection-end="7001" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1337#1353#0" expanded="true" />
+            <element signature="e#2645#2661#0" expanded="true" />
+            <element signature="e#8672#8678#0" expanded="true" />
+            <element signature="e#9661#10121#0" expanded="true" />
+            <element signature="e#10102#10103#0" expanded="true" />
+            <element signature="e#11120#11148#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../framework/src/play/jobs/Job.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="13" selection-start="582" selection-end="582" vertical-scroll-proportion="0.107334524">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/play/modules/ide/AcePlugin.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="31" selection-start="237" selection-end="237" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state line="4" column="0" selection-start="64" selection-end="65" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/play/modules/ide/AceEditor.java">
+    <entry file="file://$PROJECT_DIR$/app/views/AceEditor/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="141" column="54" selection-start="5752" selection-end="5752" vertical-scroll-proportion="0.51699466">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1337#1353#0" expanded="true" />
-            <element signature="e#2645#2661#0" expanded="true" />
-            <element signature="e#8566#8572#0" expanded="true" />
-            <element signature="e#9555#10015#0" expanded="true" />
-            <element signature="e#9996#9997#0" expanded="true" />
-            <element signature="e#11014#11042#0" expanded="true" />
-          </folding>
+        <state line="91" column="65" selection-start="5821" selection-end="5821" vertical-scroll-proportion="0.36448598">
+          <folding />
         </state>
       </provider>
     </entry>

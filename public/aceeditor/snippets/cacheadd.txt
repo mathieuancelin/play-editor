@@ -1,0 +1,1 @@
+play.cache.Cache.add("key", "value", "1h");

@@ -1,0 +1,6 @@
+public class MyJob extends play.jobs.Job {
+     
+    public void doJob()  throws Exception {
+         
+    }
+}
