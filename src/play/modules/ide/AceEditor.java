@@ -16,10 +16,14 @@ import play.vfs.VirtualFile;
 
 public class AceEditor {
 
+    // TODO : add snippets
+    // TODO : add more key shortcuts for testing ??
+    // TODO : vi mode ?
+    // TODO : shortcuts link => https://github.com/ajaxorg/ace/wiki/Default-Keyboard-Shortcuts
     public static void index(Http.Request request, Http.Response response) throws Exception {
         String projectName = Play.configuration.getProperty("application.name", "Unknown");
         VirtualFile vf = Play.roots.get(0);
-        List files = getFiles(vf, new ArrayList());
+        List<SourceFile> files = getFiles(vf, new ArrayList<SourceFile>());
         vf = vf.child("/app/controllers/Application.java");
         String src = "";
         String currentFile = "NONE";
@@ -48,7 +52,7 @@ public class AceEditor {
     public static void file(Http.Request request, Http.Response response, String path, int line) throws Exception {
         String projectName = Play.configuration.getProperty("application.name", "Unknown");
         VirtualFile vf = Play.roots.get(0);
-        List files = getFiles(vf, new ArrayList());
+        List<SourceFile> files = getFiles(vf, new ArrayList<SourceFile>());
         File file = new File(path);
         String src = IO.readContentAsString(file).trim();
         String currentFile = file.getAbsolutePath();
@@ -82,7 +86,7 @@ public class AceEditor {
         }
     }
 
-    private static List getFiles(VirtualFile file, List files) {
+    private static List<SourceFile> getFiles(VirtualFile file, List<SourceFile> files) {
         VirtualFile vf = Play.roots.get(0);
         for (VirtualFile f : file.list()) {
             if (f.isDirectory()) {
@@ -112,6 +116,8 @@ public class AceEditor {
             }
             return false;
         } else if (path.startsWith("/lib")) {
+            return false;
+        } else if (path.startsWith("/modules")) {
             return false;
         } else if (path.contains("DS_Store")) {
             return false;
