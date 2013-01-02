@@ -2,14 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/play/modules/editor/AceEditor.java" afterPath="$PROJECT_DIR$/src/play/modules/editor/AceEditor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/play-ace.jar" afterPath="$PROJECT_DIR$/lib/play-ace.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/AceEditor/index.html" afterPath="$PROJECT_DIR$/app/views/AceEditor/index.html" />
     </list>
     <ignored path="play-ace-ide.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Dummy.txt" changelist="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" time="1357130332189" ignored="false" />
     <file path="/AcePlugin.java" changelist="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" time="1357067994592" ignored="false" />
     <file path="/AceEditor.java" changelist="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" time="1357131514666" ignored="false" />
-    <file path="/index.html" changelist="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" time="1357129981030" ignored="false" />
+    <file path="/index.html" changelist="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" time="1357150334501" ignored="false" />
     <file path="/main.css" changelist="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" time="1356995727339" ignored="false" />
     <file path="/csstree.css" changelist="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" time="1357053929137" ignored="false" />
     <file path="/asyncjob.txt" changelist="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" time="1357069936592" ignored="false" />
@@ -22,6 +23,9 @@
     <file path="/a.dummy" changelist="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" time="1357130005642" ignored="false" />
     <file path="/README.md" changelist="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" time="1357130748371" ignored="false" />
     <file path="/commands.py" changelist="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" time="1357130019401" ignored="false" />
+    <file path="/wsdelete.txt" changelist="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" time="1357150413344" ignored="false" />
+    <file path="/wspost.txt" changelist="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" time="1357150421563" ignored="false" />
+    <file path="/wsput.txt" changelist="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" time="1357150429396" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,37 +85,55 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="template.txt" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/aceeditor/snippets/template.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="1" column="24" selection-start="49" selection-end="49" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="foreach.txt" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/aceeditor/snippets/foreach.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="23" selection-start="74" selection-end="74" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/AceEditor/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="32" column="74" selection-start="1800" selection-end="1800" vertical-scroll-proportion="0.0">
+            <state line="207" column="47" selection-start="11419" selection-end="11419" vertical-scroll-proportion="-12.291667">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AceEditor.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="wsdelete.txt" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/public/aceeditor/snippets/wsdelete.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="89" selection-start="89" selection-end="89" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="wsget.txt" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/aceeditor/snippets/wsget.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="wspost.txt" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/aceeditor/snippets/wspost.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="87" selection-start="87" selection-end="87" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="wsput.txt" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/aceeditor/snippets/wsput.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="86" selection-start="86" selection-end="86" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AceEditor.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/play/modules/editor/AceEditor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="306" column="8" selection-start="12025" selection-end="12025" vertical-scroll-proportion="0.7316637">
+            <state line="306" column="8" selection-start="12025" selection-end="12025" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1340#1356#0" expanded="true" />
@@ -138,15 +160,6 @@
         <entry file="file://$PROJECT_DIR$/src/play.plugins">
           <provider selected="true" editor-type-id="text-editor">
             <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="EditorPlugin.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/play/modules/editor/EditorPlugin.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="64" selection-start="712" selection-end="712" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -188,9 +201,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/public/aceeditor/snippets/startjob.txt" />
-        <option value="$PROJECT_DIR$/public/aceeditor/snippets/stopjob.txt" />
-        <option value="$PROJECT_DIR$/public/aceeditor/snippets/wsget.txt" />
         <option value="$PROJECT_DIR$/src/play/modules/ide/AceEditor.java" />
         <option value="$PROJECT_DIR$/public/aceeditor/snippets/model.txt" />
         <option value="$PROJECT_DIR$/public/aceeditor/snippets/action.txt" />
@@ -199,11 +209,14 @@
         <option value="$PROJECT_DIR$/public/aceeditor/snippets/foreach.txt" />
         <option value="$PROJECT_DIR$/public/aceeditor/snippets/rollback.txt" />
         <option value="$PROJECT_DIR$/src/play/modules/editor/EditorPlugin.java" />
-        <option value="$PROJECT_DIR$/app/views/AceEditor/index.html" />
         <option value="$PROJECT_DIR$/commands.py" />
         <option value="$PROJECT_DIR$/conf/dependencies.yml" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/src/play/modules/editor/AceEditor.java" />
+        <option value="$PROJECT_DIR$/app/views/AceEditor/index.html" />
+        <option value="$PROJECT_DIR$/public/aceeditor/snippets/wsdelete.txt" />
+        <option value="$PROJECT_DIR$/public/aceeditor/snippets/wspost.txt" />
+        <option value="$PROJECT_DIR$/public/aceeditor/snippets/wsput.txt" />
       </list>
     </option>
   </component>
@@ -305,6 +318,28 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="aceeditor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="play-ace-ide" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="editor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="aceeditor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="snippets" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -581,26 +616,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/public/aceeditor/snippets/cacherem.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/aceeditor/snippets/cacheget.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/aceeditor/snippets/cacheclear.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/aceeditor/snippets/cacheadd.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/aceeditor/snippets/action.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state line="1" column="0" selection-start="29" selection-end="85" vertical-scroll-proportion="0.0" />
@@ -628,13 +643,6 @@
     <entry file="file://$PROJECT_DIR$/src/play/modules/editor/EditorPlugin.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="22" column="64" selection-start="712" selection-end="712" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/AceEditor/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="74" selection-start="1800" selection-end="1800" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -674,7 +682,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/play/modules/editor/AceEditor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="306" column="8" selection-start="12025" selection-end="12025" vertical-scroll-proportion="0.7316637">
+        <state line="306" column="8" selection-start="12025" selection-end="12025" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1340#1356#0" expanded="true" />
@@ -684,6 +692,41 @@
             <element signature="e#10458#10459#0" expanded="true" />
             <element signature="e#11476#11504#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/AceEditor/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="207" column="47" selection-start="11419" selection-end="11419" vertical-scroll-proportion="-12.291667">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/aceeditor/snippets/wsget.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/aceeditor/snippets/wspost.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="87" selection-start="87" selection-end="87" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/aceeditor/snippets/wsput.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="86" selection-start="86" selection-end="86" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/aceeditor/snippets/wsdelete.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="89" selection-start="89" selection-end="89" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>

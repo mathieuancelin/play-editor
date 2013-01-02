@@ -1,0 +1,1 @@
+play.libs.F.Promise<HttpResponse> futureResponse = WS.url("http://www.google.com").putAsync();
