@@ -12,16 +12,17 @@ $ cd ${PLAY_HOME}/modules
 git clone https://github.com/mathieuancelin/play-editor.git editor
 ```
 
-add the dependency in your project and sync the project dependencies :
-
-```
-- play -> editor 1.0
-```
-
-or add a 'editor' file inside the module folder of your app with :
+add an 'editor' file inside the module folder of your app with :
 
 ```
 /path/to/play-1.2.5/modules/editor
+```
+
+or you can just clone the module in your application
+
+```
+$ cd ${APP}/modules
+git clone https://github.com/mathieuancelin/play-editor.git editor
 ```
 
 When starting the application, the web editor is available at http://localhost:9000/@editor
