@@ -2,13 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/play/modules/editor/AceEditor.java" afterPath="$PROJECT_DIR$/src/play/modules/editor/AceEditor.java" />
     </list>
     <ignored path="play-ace-ide.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Dummy.txt" changelist="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" time="1357130332189" ignored="false" />
     <file path="/AcePlugin.java" changelist="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" time="1357067994592" ignored="false" />
-    <file path="/AceEditor.java" changelist="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" time="1357070025313" ignored="false" />
+    <file path="/AceEditor.java" changelist="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" time="1357131514666" ignored="false" />
     <file path="/index.html" changelist="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" time="1357129981030" ignored="false" />
     <file path="/main.css" changelist="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" time="1356995727339" ignored="false" />
     <file path="/csstree.css" changelist="4cb79c89-37ca-4a11-96e8-3e21c3a7bbe9" time="1357053929137" ignored="false" />
@@ -108,24 +108,27 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AceEditor.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="AceEditor.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/play/modules/editor/AceEditor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="47" column="42" selection-start="1752" selection-end="1752" vertical-scroll-proportion="0.0">
+            <state line="306" column="8" selection-start="12025" selection-end="12025" vertical-scroll-proportion="0.7316637">
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1340#1356#0" expanded="true" />
-                <element signature="e#2651#2667#0" expanded="true" />
-                <element signature="e#8681#8687#0" expanded="true" />
+                <element signature="e#2880#2896#0" expanded="true" />
+                <element signature="e#9028#9034#0" expanded="true" />
+                <element signature="e#10017#10477#0" expanded="true" />
+                <element signature="e#10458#10459#0" expanded="true" />
+                <element signature="e#11476#11504#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="README.md" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="README.md" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="64" selection-start="181" selection-end="181" vertical-scroll-proportion="0.13416816">
+            <state line="5" column="64" selection-start="181" selection-end="181" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -199,8 +202,8 @@
         <option value="$PROJECT_DIR$/app/views/AceEditor/index.html" />
         <option value="$PROJECT_DIR$/commands.py" />
         <option value="$PROJECT_DIR$/conf/dependencies.yml" />
-        <option value="$PROJECT_DIR$/src/play/modules/editor/AceEditor.java" />
         <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/src/play/modules/editor/AceEditor.java" />
       </list>
     </option>
   </component>
@@ -252,6 +255,88 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="editor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="play-ace-ide" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="editor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="play-ace-ide" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="editor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="editor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="play-ace-ide" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="editor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="aceeditor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="play-ace-ide" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="editor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="conf" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="play-ace-ide" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="editor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AceEditor" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -573,18 +658,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/play/modules/editor/AceEditor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="47" column="42" selection-start="1752" selection-end="1752" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1340#1356#0" expanded="true" />
-            <element signature="e#2651#2667#0" expanded="true" />
-            <element signature="e#8681#8687#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/aceeditor/snippets/rollback.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="10" selection-start="10" selection-end="10" vertical-scroll-proportion="0.0">
@@ -594,8 +667,23 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="64" selection-start="181" selection-end="181" vertical-scroll-proportion="0.13416816">
+        <state line="5" column="64" selection-start="181" selection-end="181" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/play/modules/editor/AceEditor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="306" column="8" selection-start="12025" selection-end="12025" vertical-scroll-proportion="0.7316637">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1340#1356#0" expanded="true" />
+            <element signature="e#2880#2896#0" expanded="true" />
+            <element signature="e#9028#9034#0" expanded="true" />
+            <element signature="e#10017#10477#0" expanded="true" />
+            <element signature="e#10458#10459#0" expanded="true" />
+            <element signature="e#11476#11504#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

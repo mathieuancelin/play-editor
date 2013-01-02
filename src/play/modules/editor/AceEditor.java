@@ -49,8 +49,11 @@ public class AceEditor {
                 VirtualFile root = f;
                 root = root.child("/app/views/AceEditor/index.html");
                 renderGroovytemplate(root.getRealFile(), params, response.out);
+                return;
             }
         }
+        byte[] bytes = "<h1>Error while loading editor template</h1><h4>Maybe the editor module isn't in a folder named editor.</h4>".getBytes("utf-8");
+        response.out.write(bytes, 0, bytes.length);
     }
 
     public static void file(Http.Request request, Http.Response response, String path, int line) throws Exception {
@@ -77,8 +80,11 @@ public class AceEditor {
                 VirtualFile root = f;
                 root = root.child("/app/views/AceEditor/index.html");
                 renderGroovytemplate(root.getRealFile(), params, response.out);
+                return;
             }
         }
+        byte[] bytes = "<h1>Error while loading editor template</h1><h4>Maybe the editor module isn't in a folder named editor.</h4>".getBytes("utf-8");
+        response.out.write(bytes, 0, bytes.length);
     }
 
     public static void save(Http.Request request, Http.Response response, String currentFile, String src) throws Exception {
@@ -109,10 +115,6 @@ public class AceEditor {
         Files.delete(new File(name));
         response.contentType = "text/plain";
         response.out.write("".getBytes("utf-8"), 0, 0);
-    }
-
-    public static void insertSnippet(Http.Request request, Http.Response response, String snippetId) {
-
     }
 
     private static List<SourceFile> getFiles(VirtualFile file, List<SourceFile> files) {
@@ -296,13 +298,13 @@ public class AceEditor {
 
     private static void renderGroovytemplate(File file, Map<String, Object> context, OutputStream os) throws Exception {
         OutputStreamWriter osw = new OutputStreamWriter(os);
-        //if (!templates.containsKey(file)) {
+        if (!templates.containsKey(file)) {
             String code = IO.readContentAsString(file);
             code = code.replace("$.", "\\$.").replace("$(", "\\$(");
             Template template = engine.createTemplate(code);
-            //templates.putIfAbsent(file, template);
-            templates.put(file, template);
-        //}
+            templates.putIfAbsent(file, template);
+            //templates.put(file, template);
+        }
         templates.get(file).make(context).writeTo(osw);
     }
 }
