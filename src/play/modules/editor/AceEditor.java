@@ -1,4 +1,4 @@
-package play.modules.ide;
+package play.modules.editor;
 
 import groovy.text.SimpleTemplateEngine;
 import groovy.text.Template;
@@ -45,7 +45,7 @@ public class AceEditor {
         params.put("node", node);
         response.contentType = "text/html";
         for (VirtualFile f : Play.roots) {
-            if (f.getName().equals("ace")) {
+            if (f.getName().equals("editor")) {
                 VirtualFile root = f;
                 root = root.child("/app/views/AceEditor/index.html");
                 renderGroovytemplate(root.getRealFile(), params, response.out);
@@ -73,7 +73,7 @@ public class AceEditor {
         params.put("node", node);
         response.contentType = "text/html";
         for (VirtualFile f : Play.roots) {
-            if (f.getName().equals("ace")) {
+            if (f.getName().equals("editor")) {
                 VirtualFile root = f;
                 root = root.child("/app/views/AceEditor/index.html");
                 renderGroovytemplate(root.getRealFile(), params, response.out);

@@ -1,24 +1,24 @@
-Play !> web IDE
+Play !> web editor
 =================
 
 A Play 1 module to edit your application inside your application in DEV mode.
 
-![Play web IDE](https://github.com/mathieuancelin/play-ace-ide/raw/master/webide.png "Play web IDE")
+![Play web editor](https://github.com/mathieuancelin/play-ace-ide/raw/master/webide.png "Play web editor")
 
 To use it, clone the repo inside your play modules
 
 ```
 $ cd ${PLAY_HOME}/modules
-git clone https://github.com/mathieuancelin/play-ace-ide.git ace
+git clone https://github.com/mathieuancelin/play-ace-ide.git editor
 ```
 
 add the dependency in your project and sync the project dependencies :
 
 ```
-- play -> ace 0.1
+- play -> editor 1.0
 ```
 
-When starting the application, IDE is available at http://localhost:9000/@editor
+When starting the application, the web editor is available at http://localhost:9000/@editor
 
 You can edit your code, create files or directories, insert snippets.
 

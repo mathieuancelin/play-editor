@@ -1,4 +1,4 @@
-self: play -> ace 0.1
+self: play -> editor 1.0
 
 require:
     - play

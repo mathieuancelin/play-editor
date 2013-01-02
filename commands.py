@@ -1,10 +1,10 @@
 # Here you can create play commands that are specific to the module, and extend existing commands
 
-MODULE = 'ace'
+MODULE = 'editor'
 
 # Commands that are specific to your module
 
-COMMANDS = ['ace:hello']
+COMMANDS = ['editor:hello']
 
 def execute(**kargs):
     command = kargs.get("command")
@@ -12,7 +12,7 @@ def execute(**kargs):
     args = kargs.get("args")
     env = kargs.get("env")
 
-    if command == "ace:hello":
+    if command == "editor:hello":
         print "~ Hello"
 
 

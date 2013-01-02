@@ -1,4 +1,4 @@
-package play.modules.ide;
+package play.modules.editor;
 
 import play.Logger;
 import play.Play;
@@ -9,10 +9,10 @@ import play.PlayPlugin;
 import java.lang.Integer;
 import java.net.URLDecoder;
 
-public class AcePlugin extends PlayPlugin {
+public class EditorPlugin extends PlayPlugin {
 
     public void onLoad() {
-        Logger.info("The web IDE plugin is enabled. Go to http://localhost:9000/@editor to use it ...");
+        Logger.info("The web editor plugin is enabled. Go to http://localhost:9000/@editor to use it ...");
     }
 
     public boolean rawInvocation(Request request, Response response) throws Exception {
