@@ -3,7 +3,7 @@ Play !> web editor
 
 A Play 1 module to edit your application inside your application in DEV mode.
 
-![Play web editor](https://github.com/mathieuancelin/play-editor/raw/master/webide.png "Play web editor")
+![Play web editor](https://github.com/mathieuancelin/play-editor/raw/master/webeditor.png "Play web editor")
 
 To use it, clone the repo inside your play modules
 
