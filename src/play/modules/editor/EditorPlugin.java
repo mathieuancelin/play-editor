@@ -28,6 +28,11 @@ public class EditorPlugin extends PlayPlugin {
                     Integer line = Integer.valueOf(request.querystring.split("line=")[1]);
                     AceEditor.file(request, response, path, line);
                     return true;
+                } else if (request.url.startsWith("/@editor/compile")) {
+                    String src = request.params.get("src");
+                    String path = request.params.get("path");
+                    AceEditor.compile(request, response, path, src);
+                    return true;
                 } else if (request.url.startsWith("/@editor/save")) {
                     String currentFile = request.params.get("currentFile");
                     String src = request.params.get("src");

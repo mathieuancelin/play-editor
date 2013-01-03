@@ -2,7 +2,10 @@ package play.modules.editor;
 
 import groovy.text.SimpleTemplateEngine;
 import groovy.text.Template;
+import org.apache.commons.lang.StringEscapeUtils;
 import play.Play;
+import play.classloading.ApplicationClasses;
+import play.exceptions.CompilationException;
 import play.libs.Files;
 import play.libs.IO;
 
@@ -115,6 +118,49 @@ public class AceEditor {
         Files.delete(new File(name));
         response.contentType = "text/plain";
         response.out.write("".getBytes("utf-8"), 0, 0);
+    }
+
+    public static void compile(Http.Request request, Http.Response response, String path, String source) throws Exception {
+        response.contentType = "application/json";
+        if (path.endsWith(".java")) {
+            javaCompile(response, source, path);
+        } else {
+            byte[] res = "{\"compilation\":true}".getBytes("utf-8");
+            response.out.write(res, 0, res.length);
+        }
+    }
+
+    private static void javaCompile(Http.Response response, String source, String path) throws Exception {
+        path = path.replace(Play.roots.get(0).getRealFile().getAbsolutePath() + "/", "");
+        String dotPath = path.replaceAll("/", ".");
+        int offset = dotPath.indexOf("app.");
+        if (offset == 0) {
+            String classPath = dotPath.substring(4);
+            classPath = classPath.substring(0, classPath.length()-5);
+            ApplicationClasses.ApplicationClass applicationClass = Play.classes.getApplicationClass(classPath);
+            if (applicationClass != null) {
+                try {
+                    applicationClass.refresh();
+                    applicationClass.javaSource = source;
+                    applicationClass.compile();
+                    byte[] result = "{\"compilation\":true}".getBytes("utf-8");
+                    response.out.write(result, 0, result.length);
+                } catch (CompilationException e) {
+                    int errorLine = e.getLineNumber();
+                    int srcStart = e.getSourceStart();
+                    int srcEnd = e.getSourceEnd();
+                    String msg = e.getMessage();
+                   // response.contentType = "text/plain";
+                    String result = "{\"compilation\":false," +
+                    "\"errorLine\":" + errorLine + "," +
+                    "\"msg\":\"" + StringEscapeUtils.escapeJavaScript(msg) + "\"," +
+                    "\"srcStart\":\"" + srcStart + "\"," +
+                    "\"srcEnd\":\"" + srcEnd + "\"}";
+                    byte[] resultBytes = result.getBytes("utf-8");
+                    response.out.write(resultBytes, 0, resultBytes.length);
+                }
+            }
+        }
     }
 
     private static List<SourceFile> getFiles(VirtualFile file, List<SourceFile> files) {

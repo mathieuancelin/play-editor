@@ -113,13 +113,31 @@
                 $('#message').css('font-style', 'normal');
                 $('#message').html(text);
             };
+            var compile = function(src) {
+                return $.post('/@editor/compile', {src: src, path: $('#currentFileValue').html()}, function(data) {
+                    //console.log(data);
+                    if (!data.compilation) {
+                        var line = data.errorLine - 1;
+                        editor.getSession().setAnnotations([{text: data.msg, row: line, type:"error"}]);
+                        setContextualMessageFor("Error in file ...");
+                    } else {
+                        editor.getSession().setAnnotations([]);
+                    }
+                });
+            };
             var saveFile = function(editor) {
                 var src = editor.getValue();
                 setContextualMessageFor('Saving ...');
-                $.post('/@editor/save', {src: src, currentFile: $('#currentFileValue').html()}, function(data) {
+                /**$.post('/@editor/save', {src: src, currentFile: $('#currentFileValue').html()}, function(data) {
                     setContextualMessageFor2Sec('File saved !');
                     //editor.setValue(data);
-                })
+                });**/
+                compile(src).success(function() {
+                    $.post('/@editor/save', {src: src, currentFile: $('#currentFileValue').html()}, function(data) {
+                        setContextualMessageFor2Sec('File saved !');
+                        //editor.setValue(data);
+                    });
+                });
             };
             var launchFile = function(editor) {
                 saveFile(editor);
@@ -226,6 +244,7 @@
                     });
                 });
                 $('#message').css('font-style', 'italic');
+                compile(editor.getValue());
             })
         </script>
     </body>
