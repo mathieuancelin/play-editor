@@ -136,6 +136,7 @@ public class AceEditor {
         path = path.replace(Play.roots.get(0).getRealFile().getAbsolutePath() + "/", "");
         String dotPath = path.replaceAll("/", ".");
         int offset = dotPath.indexOf("app.");
+        boolean done = false;
         if (offset == 0) {
             String classPath = dotPath.substring(4);
             classPath = classPath.substring(0, classPath.length()-5);
@@ -147,12 +148,12 @@ public class AceEditor {
                     applicationClass.compile();
                     byte[] result = "{\"compilation\":true}".getBytes("utf-8");
                     response.out.write(result, 0, result.length);
+                    done = true;
                 } catch (CompilationException e) {
                     int errorLine = e.getLineNumber();
                     int srcStart = e.getSourceStart();
                     int srcEnd = e.getSourceEnd();
                     String msg = e.getMessage();
-                   // response.contentType = "text/plain";
                     String result = "{\"compilation\":false," +
                     "\"errorLine\":" + errorLine + "," +
                     "\"msg\":\"" + StringEscapeUtils.escapeJavaScript(msg) + "\"," +
@@ -160,8 +161,13 @@ public class AceEditor {
                     "\"srcEnd\":\"" + srcEnd + "\"}";
                     byte[] resultBytes = result.getBytes("utf-8");
                     response.out.write(resultBytes, 0, resultBytes.length);
+                    done = true;
                 }
             }
+        }
+        if (!done) {
+            byte[] res = "{\"compilation\":true}".getBytes("utf-8");
+            response.out.write(res, 0, res.length);
         }
     }
 
