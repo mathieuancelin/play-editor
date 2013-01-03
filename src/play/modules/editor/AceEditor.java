@@ -22,8 +22,6 @@ import play.vfs.VirtualFile;
 
 public class AceEditor {
 
-    // TODO : add snippets
-    // TODO : shortcuts link => https://github.com/ajaxorg/ace/wiki/Default-Keyboard-Shortcuts
     public static void index(Http.Request request, Http.Response response) throws Exception {
         String projectName = Play.configuration.getProperty("application.name", "Unknown");
         VirtualFile vf = Play.roots.get(0);
