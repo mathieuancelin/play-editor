@@ -46,6 +46,7 @@ public class AceEditor {
         params.put("type", type);
         params.put("line", 0);
         params.put("node", node);
+        params.put("prefix", Play.configuration.getProperty("http.path", ""));
         response.contentType = "text/html";
         for (VirtualFile f : Play.roots) {
             if (f.getName().equals("editor")) {
@@ -77,6 +78,7 @@ public class AceEditor {
         params.put("type", type);
         params.put("line", line);
         params.put("node", node);
+        params.put("prefix", Play.configuration.getProperty("http.path", ""));
         response.contentType = "text/html";
         for (VirtualFile f : Play.roots) {
             if (f.getName().equals("editor")) {
