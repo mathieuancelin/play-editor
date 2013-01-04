@@ -4,7 +4,7 @@ var Snippets = {};
 
     exports.insertSnippet = function(key) {
         $.get('/public/aceeditor/snippets/' + key + '.txt', function(data) {
-            editor.insert(data);
+            PlayEditor.editor.insert(data);
         });
     };
 

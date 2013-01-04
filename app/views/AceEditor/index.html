@@ -95,7 +95,6 @@
         <div id="findcontainer" class="hide"></div>
         <script>
 
-            var editor;
             var testtab;
 
             var setContextualMessageFor2Sec = function(text) {
@@ -106,22 +105,12 @@
                     $('#message').css('font-style', 'italic');
                 }, 2000);
             };
+
             var setContextualMessageFor = function(text) {
                 $('#message').css('font-style', 'normal');
                 $('#message').html(text);
             };
-//            var compile = function(src) {
-//                return $.post('/@editor/compile', {src: src, path: $('#currentFileValue').html()}, function(data) {
-//                    if (!data.compilation) {
-//                        var line = data.errorLine - 1;
-//                        editor.getSession().setAnnotations([{text: data.msg, row: line, type:"error"}]);
-//                        $('#message').attr('class', 'label label-important');
-//                    } else {
-//                        editor.getSession().setAnnotations([]);
-//                        $('#message').attr('class', 'label label-success');
-//                    }
-//                });
-//            };
+
             var saveFile = function(editor) {
                 var src = editor.getValue();
                 setContextualMessageFor('Saving ...');
@@ -131,73 +120,35 @@
                     });
                 });
             };
+
             var launchFile = function(editor) {
-                saveFile(editor);
+                saveFile(PlayEditor.editor);
                 $('#testerframe').attr('src', '');
                 var url = $('#testurl').val();
                 $('#testerframe').attr('src', url);
                 $('#tester').modal('show');
             };
-            var configureEditor = function() {
-                var editor = ace.edit("editor");
-                editor.commands.addCommand({
-                    name: 'saveFile',
-                    bindKey: {win: 'Ctrl-S',  mac: 'Command-S'},
-                    exec: function(editor) {
-                        saveFile(editor);
-                    },
-                    readOnly: true
-                });
-                editor.commands.addCommand({
-                    name: 'launchFile',
-                    bindKey: {win: 'Ctrl-B',  mac: 'Command-B'},
-                    exec: function(editor) {
-                        launchFile(editor)
-                    },
-                    readOnly: true
-                });
-                editor.commands.addCommand({
-                    name: 'autocomplete',
-                    bindKey: {win: 'Ctrl-Space',  mac: 'Ctrl-Space'},
-                    exec: AutoComplete.ctrlSpaceTrigger,
-                    readOnly: true
-                });
-                editor.setTheme("ace/theme/monokai");
-                editor.getSession().setMode($('#typeOfFileValue').html());
-                editor.setHighlightActiveLine(true);
-                editor.getSession().setUseSoftTabs(true);
-                editor.getSession().setTabSize(4);
-                editor.setShowPrintMargin(false);
-                editor.gotoLine(${line});
-                editor.on("blur", function() {
-                    saveFile(editor);
-                });
-                editor.on("copy", function(text) {
-                    setContextualMessageFor2Sec('Copy selected text ...');
-                });
-                editor.getSession().on('change', function(e) {
-                    if (AutoComplete.displayAutoComplete) {
-                        AutoComplete.autoComplete();
-                    }
-                });
-                return editor;
-            };
+
             var refreshIDE = function() {
                 window.location.href = window.location.href;
-            }
+            };
+
             $(document).ready(function() {
 
                 $(document).keydown( AutoComplete.handleDirKeys );
-                editor = configureEditor();
+
+                PlayEditor.setup(${line});
 
                 $('#savefile').click(function(e) {
                     e.preventDefault();
-                    saveFile(editor);
+                    saveFile(PlayEditor.editor);
                 });
+
                 $('#run').click(function(e) {
                     e.preventDefault();
-                    launchFile(editor);
+                    launchFile(PlayEditor.editor);
                 });
+
                 $('#create').click(function(e) {
                     e.preventDefault();
                     var r = prompt('File path in app ?');
@@ -207,6 +158,7 @@
                         });
                     }
                 });
+
                 $('#createdir').click(function(e) {
                     e.preventDefault();
                     var r = prompt('Dir path in app ?');
@@ -216,6 +168,7 @@
                         });
                     }
                 });
+
                 $('#delete').click(function(e) {
                     e.preventDefault();
                     var name = $('#currentFileValue').html();
@@ -226,20 +179,24 @@
                         });
                     }
                 });
+
                 $('#refreshfile').click(function(e) {
                     e.preventDefault();
                     refreshIDE();
                 });
+
                 $('#link').click(function(e) {
                     e.preventDefault();
                     if(testtab == null) { testtab = window.open(); }
-                    testtab.location = 'http://localhost:9000/@editor/file?path=' + encodeURIComponent($('#currentFileValue').html()) + "&line=" + editor.selection.getCursor().row;
+                    testtab.location = 'http://localhost:9000/@editor/file?path=' + encodeURIComponent($('#currentFileValue').html()) + "&line=" + PlayEditor.editor.selection.getCursor().row;
                     testtab.focus();
                 });
+
                 $('.snippet').click(function(e) {
                     e.preventDefault();
                     Snippets.insertSnippet($(this).data('key'));
                 });
+
                 $('.sourcefilelink').click(function(e) {
                     e.preventDefault();
                     var url = $(this).attr('href');
@@ -248,10 +205,11 @@
                     $('#righcolumn').load(url + ' #editor', function(data) {
                         $('#currentFileValue').html(currentFile);
                         $('#typeOfFileValue').html(type);
-                        editor = configureEditor();
-                        JavaCompiler.compile(editor.getValue());
+                        PlayEditor.setup(0);
+                        JavaCompiler.compile(PlayEditor.editor.getValue());
                     });
                 });
+
                 $('#autocomplete option').live('click', function(e) {
                     $('#autocomplete option').each(function() {
                         $(this).removeAttr('selected');
@@ -259,8 +217,10 @@
                     $(this).attr('selected', 'selected');
                     AutoComplete.insertAutoComplete();
                 });
+
                 $('#message').css('font-style', 'italic');
-                JavaCompiler.compile(editor.getValue());
+
+                JavaCompiler.compile(PlayEditor.editor.getValue());
             })
         </script>
     </body>

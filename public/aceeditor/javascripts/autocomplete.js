@@ -20,24 +20,24 @@ var AutoComplete = {};
         exports.autoCompleteLine = -1;
         $('#autocomplete').html('');
         $('#autocomplete').hide();
-        editor.focus();
+        PlayEditor.editor.focus();
     };
 
     exports.autoComplete = function() {
-        var currentPos = editor.selection.getCursor().column;
-        var currentLine = editor.selection.getCursor().row;
+        var currentPos = PlayEditor.editor.selection.getCursor().column;
+        var currentLine = PlayEditor.editor.selection.getCursor().row;
         if (currentLine != exports.autoCompleteLine) {
             exports.endAutoComplete();
         } else if (currentPos < exports.autoCompleteStart) {
             exports.endAutoComplete();
         } else {
-            var line = editor.getSession().getLine(currentLine);
+            var line = PlayEditor.editor.getSession().getLine(currentLine);
             var typed = line.substring(exports.autoCompleteStart, currentPos + 1);
-            var type = editor.getSession().getTokenAt(currentLine, currentPos).type
-            var value = editor.getSession().getTokenAt(currentLine, currentPos).value
+            var type = PlayEditor.editor.getSession().getTokenAt(currentLine, currentPos).type
+            var value = PlayEditor.editor.getSession().getTokenAt(currentLine, currentPos).value
             if (exports.checkIfValidToken(type, value)) {
                 try {
-                    var tok = editor.getSession().getTokenAt(currentLine, currentPos);
+                    var tok = PlayEditor.editor.getSession().getTokenAt(currentLine, currentPos);
                     if (tok.value != undefined) {
                         typed = $.trim(tok.value);
                     } else {
@@ -76,14 +76,14 @@ var AutoComplete = {};
     exports.insertAutoComplete = function() {
         if (!$('#autocomplete select').is(':empty')) {
             var value = $('#autocomplete option[selected=selected]').first().val();
-            var currentPos = editor.selection.getCursor().column;
-            var currentLine = editor.selection.getCursor().row;
+            var currentPos = PlayEditor.editor.selection.getCursor().column;
+            var currentLine = PlayEditor.editor.selection.getCursor().row;
             var typed = '';
-            var type = editor.getSession().getTokenAt(currentLine, currentPos).type
-            var tokvalue = editor.getSession().getTokenAt(currentLine, currentPos).value
+            var type = PlayEditor.editor.getSession().getTokenAt(currentLine, currentPos).type
+            var tokvalue = PlayEditor.editor.getSession().getTokenAt(currentLine, currentPos).value
             if (exports.checkIfValidToken(type, tokvalue)) {
                 try {
-                    var tok = editor.getSession().getTokenAt(currentLine, currentPos);
+                    var tok = PlayEditor.editor.getSession().getTokenAt(currentLine, currentPos);
                     if (tok.value != undefined) {
                         typed = $.trim(tok.value);
                     } else {
@@ -100,7 +100,7 @@ var AutoComplete = {};
             }
             var range = new Range(currentLine, exports.autoCompleteStart, currentLine, currentPos);
             if (typed == '' || value.toLowerCase().startsWith(typed.toLowerCase())) {
-                editor.getSession().replace(range, value);
+                PlayEditor.editor.getSession().replace(range, value);
             }
         }
         exports.endAutoComplete();
