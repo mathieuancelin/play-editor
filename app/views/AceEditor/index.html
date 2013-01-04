@@ -185,7 +185,9 @@
                     }
                 }
                 var range = new Range(currentLine, autoCompleteStart, currentLine, curPos1);
-                editor.getSession().replace(range, value);
+                if (value.toLowerCase().startsWith(typed.toLowerCase())) {
+                    editor.getSession().replace(range, value);
+                }
                 endAutoComplete();
             };
             var insertSnippet = function(key) {
@@ -274,11 +276,15 @@
                                 }
                             }
                         }
-                        displayAutoComplete = true;
-                        autoCompleteTokens = tokens;
-                        autoCompleteStart = editor.selection.getCursor().column;
-                        autoCompleteLine = editor.selection.getCursor().row;
-                        autoComplete();
+                        if (!displayAutoComplete) {
+                            displayAutoComplete = true;
+                            autoCompleteTokens = tokens;
+                            autoCompleteStart = editor.selection.getCursor().column;
+                            autoCompleteLine = editor.selection.getCursor().row;
+                            autoComplete();
+                        } else {
+                            endAutoComplete();
+                        }
                     },
                     readOnly: true
                 });
