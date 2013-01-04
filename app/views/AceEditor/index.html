@@ -71,6 +71,7 @@
                     <br/>
                     <input type="text" class="input-mini" id="testurl" value="http://localhost:9000">
                     <div id="message" class="label label-info">Ready to Play !></div>
+                    <div id="autocomplete" class="hide"></div>
                     <h5>Project source files</h5>
                     <div id="listTree"></div>
 
@@ -94,8 +95,71 @@
         <div id="typeOfFileValue" class="hide">${type}</div>
         <div id="findcontainer" class="hide"></div>
         <script>
+            String.prototype.endsWith = function(suffix) {
+                return this.indexOf(suffix, this.length - suffix.length) !== -1;
+            };
+            String.prototype.startsWith = function(suffix) {
+                return this.indexOf(suffix) == 0;
+            };
+            var Range = ace.require('ace/range').Range
             var editor;
             var testtab;
+            var displayAutoComplete = false;
+            var autoCompleteTokens = [];
+            var autoCompleteStart = -1;
+            var autoCompleteLine = -1;
+            var endAutoComplete = function() {
+                displayAutoComplete = false;
+                autoCompleteTokens = [];
+                autoCompleteStart = -1;
+                autoCompleteLine = -1;
+                $('#autocomplete').html('');
+                $('#autocomplete').hide();
+            };
+            var autoComplete = function() {
+                var currentPos = editor.selection.getCursor().column;
+                var currentLine = editor.selection.getCursor().row;
+                if (currentLine != autoCompleteLine) {
+                    endAutoComplete();
+                } else if (currentPos < autoCompleteStart) {
+                    endAutoComplete();
+                } else {
+                    var line = editor.getSession().getLine(currentLine);
+                    var typed = line.substring(autoCompleteStart, currentPos + 1);
+                    //typed = editor.getSession().getTokenAt(currentLine, currentPos).value;
+                    if (typed.endsWith(" ")) {
+                        endAutoComplete();
+                    } else {
+                        var potentialTokens = jQuery.grep(autoCompleteTokens, function(token, i){
+                            return token.toLowerCase().startsWith(typed.toLowerCase());
+                        });
+                        var list = '<select multiple="multiple" size="10">';
+                        for (var t = 0; t < potentialTokens.length; t++) {
+                            list += '<option>' + potentialTokens[t] + '</option>';
+                        }
+                        list += '</select>';
+                        //console.log(editor.getSession().documentToScreenPosition(currentLine, currentPos))
+                        //var actualRow = editor.getSession().documentToScreenPosition(currentLine, currentPos).row
+                        //$('#autocomplete').css('top', (actualRow + 1) * 20);
+                        //$('#autocomplete').css('right', (editor.getSession().getScreenLength() * 12) - (currentPos*15));
+                        $('#autocomplete').html('');
+                        $('#autocomplete').html(list);
+                        $('#autocomplete').show();
+                        $('#autocomplete option').first().attr('selected', 'selected');
+                    }
+                }
+            };
+            var insertAutoComplete = function() {
+                var value = $('#autocomplete option[selected=selected]').first().val()
+                var currentPos = editor.selection.getCursor().column;
+                var currentLine = editor.selection.getCursor().row;
+                var line = editor.getSession().getLine(currentLine);
+                var typed = line.substring(autoCompleteStart, currentPos + 1);
+                var curPos1 = currentPos + 1;
+                var range = new Range(currentLine, autoCompleteStart, currentLine, curPos1);
+                editor.getSession().replace(range, value);
+                endAutoComplete();
+            };
             var insertSnippet = function(key) {
                 $.get('/public/aceeditor/snippets/' + key + '.txt', function(data) {
                     //console.log(data)
@@ -120,9 +184,10 @@
                     if (!data.compilation) {
                         var line = data.errorLine - 1;
                         editor.getSession().setAnnotations([{text: data.msg, row: line, type:"error"}]);
-                        setContextualMessageFor("Error in file ...");
+                        $('#message').attr('class', 'label label-important');
                     } else {
                         editor.getSession().setAnnotations([]);
+                        $('#message').attr('class', 'label label-success');
                     }
                 });
             };
@@ -165,6 +230,32 @@
                     },
                     readOnly: true
                 });
+                editor.commands.addCommand({
+                    name: 'complete',
+                    bindKey: {win: 'Ctrl-Space',  mac: 'Ctrl-Space'},
+                    exec: function(editor) {
+                        var tokens = [];
+                        var nbrRows = editor.getSession().getLength();
+                        for (var i = 0; i < nbrRows; i++) {
+                            var toks = editor.getSession().getTokens(i);
+                            for (var j = 0; j < toks.length; j++) {
+                                var type = toks[j].type;
+                                var value = toks[j].value;
+                                if (type != "keyword.operator" &&type != "text" && type != "lparen" && type != "rparen" && value != "<" && value != ">" && value != "*") {
+                                    if (tokens.indexOf(value) < 0) {
+                                        tokens.push(value);
+                                    }
+                                }
+                            }
+                        }
+                        displayAutoComplete = true;
+                        autoCompleteTokens = tokens;
+                        autoCompleteStart = editor.selection.getCursor().column;
+                        autoCompleteLine = editor.selection.getCursor().row;
+                        autoComplete();
+                    },
+                    readOnly: true
+                });
                 editor.setTheme("ace/theme/monokai");
                 editor.getSession().setMode($('#typeOfFileValue').html());
                 editor.setHighlightActiveLine(true);
@@ -178,12 +269,40 @@
                 editor.on("copy", function(text) {
                     setContextualMessageFor2Sec('Copy selected text ...');
                 });
+                editor.getSession().on('change', function(e) {
+                    if (displayAutoComplete) {
+                        autoComplete();
+                    }
+                });
                 return editor;
             };
             var refreshIDE = function() {
                 window.location.href = window.location.href;
             }
             $(document).ready(function() {
+                var handleDirKeys = function(e) {
+                    if (displayAutoComplete) {
+                        if(e.charCode == 13 || e.keyCode == 13) {
+                            e.preventDefault();
+                            insertAutoComplete();
+                        }
+                        if(e.charCode == 38 || e.keyCode == 38) {
+                            e.preventDefault();
+                            var selected = $('#autocomplete option[selected=selected]');
+                            var other = $('#autocomplete option[selected=selected]').prev('option');
+                            selected.removeAttr('selected');
+                            other.attr('selected', 'selected');
+                        }
+                        if(e.charCode == 40 || e.keyCode == 40) {
+                            e.preventDefault();
+                            var selected = $('#autocomplete option[selected=selected]');
+                            var other = $('#autocomplete option[selected=selected]').next('option');
+                            selected.removeAttr('selected');
+                            other.attr('selected', 'selected');
+                        }
+                    }
+                };
+                $(document).keydown( handleDirKeys );
                 editor = configureEditor();
                 $('#savefile').click(function(e) {
                     e.preventDefault();
@@ -244,8 +363,15 @@
                         $('#currentFileValue').html(currentFile);
                         $('#typeOfFileValue').html(type);
                         editor = configureEditor();
+                        compile(editor.getValue());
                     });
                 });
+                $('#autocomplete option').click(function(e) {
+                    $('#autocomplete option').each(function() {
+                        $(this).removeAttr('selected');
+                    })
+                    $(this).attr('selected', 'selected');
+                })
                 $('#message').css('font-style', 'italic');
                 compile(editor.getValue());
             })

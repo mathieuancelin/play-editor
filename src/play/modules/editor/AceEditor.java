@@ -21,7 +21,9 @@ import play.utils.HTML;
 import play.vfs.VirtualFile;
 
 public class AceEditor {
-
+    // TODO : completion with tokens of the same page
+    // TODO : Command-Clic
+    // TODO : auto imports ???
     public static void index(Http.Request request, Http.Response response) throws Exception {
         String projectName = Play.configuration.getProperty("application.name", "Unknown");
         VirtualFile vf = Play.roots.get(0);
@@ -350,13 +352,13 @@ public class AceEditor {
 
     private static void renderGroovytemplate(File file, Map<String, Object> context, OutputStream os) throws Exception {
         OutputStreamWriter osw = new OutputStreamWriter(os);
-        if (!templates.containsKey(file)) {
+        //if (!templates.containsKey(file)) {
             String code = IO.readContentAsString(file);
             code = code.replace("$.", "\\$.").replace("$(", "\\$(");
             Template template = engine.createTemplate(code);
-            templates.putIfAbsent(file, template);
-            //templates.put(file, template);
-        }
+        //    templates.putIfAbsent(file, template);
+            templates.put(file, template);
+        //}
         templates.get(file).make(context).writeTo(osw);
     }
 }

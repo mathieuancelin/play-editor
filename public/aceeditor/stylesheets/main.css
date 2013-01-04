@@ -24,3 +24,10 @@
     height: 10px;
     width: 98%;
 }
+
+#autocomplete {
+    position: fixed;
+    right: 50px;
+    top: 60px;
+    z-index: 1000;
+}
