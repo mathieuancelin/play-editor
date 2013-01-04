@@ -126,7 +126,13 @@
                 } else {
                     var line = editor.getSession().getLine(currentLine);
                     var typed = line.substring(autoCompleteStart, currentPos + 1);
-                    //typed = editor.getSession().getTokenAt(currentLine, currentPos).value;
+                    var type = editor.getSession().getTokenAt(currentLine, currentPos).type
+                    if (type != "keyword.operator" && type != "text" && type != "lparen" && type != "rparen" && value != "<" && value != ">" && value != "*") {
+                        typed = $.trim(editor.getSession().getTokenAt(currentLine, currentPos).value);
+                    } else {
+                        typed = '';
+                    }
+                    console.log("Completion based on token : '" + typed + "'");
                     if (typed.endsWith(" ")) {
                         endAutoComplete();
                     } else {
@@ -138,7 +144,6 @@
                             list += '<option>' + potentialTokens[t] + '</option>';
                         }
                         list += '</select>';
-                        //console.log(editor.getSession().documentToScreenPosition(currentLine, currentPos))
                         //var actualRow = editor.getSession().documentToScreenPosition(currentLine, currentPos).row
                         //$('#autocomplete').css('top', (actualRow + 1) * 20);
                         //$('#autocomplete').css('right', (editor.getSession().getScreenLength() * 12) - (currentPos*15));
@@ -155,6 +160,7 @@
                 var currentLine = editor.selection.getCursor().row;
                 var line = editor.getSession().getLine(currentLine);
                 var typed = line.substring(autoCompleteStart, currentPos + 1);
+                typed = $.trim(editor.getSession().getTokenAt(currentLine, currentPos).value);
                 var curPos1 = currentPos + 1;
                 var range = new Range(currentLine, autoCompleteStart, currentLine, curPos1);
                 editor.getSession().replace(range, value);
@@ -162,7 +168,6 @@
             };
             var insertSnippet = function(key) {
                 $.get('/public/aceeditor/snippets/' + key + '.txt', function(data) {
-                    //console.log(data)
                     editor.insert(data);
                 });
             };
@@ -180,7 +185,6 @@
             };
             var compile = function(src) {
                 return $.post('/@editor/compile', {src: src, path: $('#currentFileValue').html()}, function(data) {
-                    //console.log(data);
                     if (!data.compilation) {
                         var line = data.errorLine - 1;
                         editor.getSession().setAnnotations([{text: data.msg, row: line, type:"error"}]);
@@ -282,6 +286,9 @@
             $(document).ready(function() {
                 var handleDirKeys = function(e) {
                     if (displayAutoComplete) {
+                        if(e.charCode == 32 || e.keyCode == 32) {
+                            endAutoComplete();
+                        }
                         if(e.charCode == 13 || e.keyCode == 13) {
                             e.preventDefault();
                             insertAutoComplete();
@@ -366,11 +373,12 @@
                         compile(editor.getValue());
                     });
                 });
-                $('#autocomplete option').click(function(e) {
+                $('#autocomplete option').live('click', function(e) {
                     $('#autocomplete option').each(function() {
                         $(this).removeAttr('selected');
                     })
                     $(this).attr('selected', 'selected');
+                    insertAutoComplete();
                 })
                 $('#message').css('font-style', 'italic');
                 compile(editor.getValue());
