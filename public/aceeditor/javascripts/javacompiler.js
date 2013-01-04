@@ -1,4 +1,4 @@
-var JavaCompiler = {};
+var JavaCompiler = JavaCompiler || Namespace.lookup('play.plugin.editor.JavaCompiler');
 
 (function(exports) {
 

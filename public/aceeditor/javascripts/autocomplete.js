@@ -1,6 +1,6 @@
 var Range = ace.require('ace/range').Range
 
-var AutoComplete = {};
+var AutoComplete = AutoComplete || Namespace.lookup('play.plugin.editor.AutoComplete');
 
 (function(exports) {
 

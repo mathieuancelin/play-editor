@@ -1,4 +1,4 @@
-var Snippets = {};
+var Snippets = Snippets || Namespace.lookup('play.plugin.editor.Snippets');
 
 (function(exports) {
 

@@ -1,4 +1,4 @@
-var PlayEditor = {};
+var PlayEditor = PlayEditor || Namespace.lookup('play.plugin.editor.PlayEditor');
 
 (function(exports) {
 
