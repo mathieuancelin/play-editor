@@ -21,8 +21,9 @@ import play.utils.HTML;
 import play.vfs.VirtualFile;
 
 public class AceEditor {
-    // TODO : completion with tokens of the same page
-    // TODO : Command-Clic
+
+    // TODO : javadoc ???
+    // TODO : Command-Clic ???
     // TODO : auto imports ???
     public static void index(Http.Request request, Http.Response response) throws Exception {
         String projectName = Play.configuration.getProperty("application.name", "Unknown");

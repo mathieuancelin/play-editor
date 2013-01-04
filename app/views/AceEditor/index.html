@@ -115,6 +115,7 @@
                 autoCompleteLine = -1;
                 $('#autocomplete').html('');
                 $('#autocomplete').hide();
+                editor.focus();
             };
             var autoComplete = function() {
                 var currentPos = editor.selection.getCursor().column;
@@ -176,6 +177,13 @@
                 var typed = line.substring(autoCompleteStart, currentPos + 1);
                 typed = $.trim(editor.getSession().getTokenAt(currentLine, currentPos).value);
                 var curPos1 = currentPos + 1;
+                var type = editor.getSession().getTokenAt(currentLine, currentPos).type
+                var tokvalue = editor.getSession().getTokenAt(currentLine, currentPos).value
+                if (type != "keyword.operator" && type != "text" && type != "lparen" && type != "rparen" && tokvalue != "<" && tokvalue != ">" && tokvalue != "*") {
+                    if ((currentPos - autoCompleteStart) != typed.length) {
+                        autoCompleteStart = currentPos - typed.length;
+                    }
+                }
                 var range = new Range(currentLine, autoCompleteStart, currentLine, curPos1);
                 editor.getSession().replace(range, value);
                 endAutoComplete();
