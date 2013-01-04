@@ -108,6 +108,9 @@
             var autoCompleteTokens = [];
             var autoCompleteStart = -1;
             var autoCompleteLine = -1;
+            var checkIfValidToken = function(type, value) {
+                return (type != "keyword.operator" && type != "text" && type != "lparen" && type != "rparen" && value != "<" && value != ">" && value != "*");
+            };
             var endAutoComplete = function() {
                 displayAutoComplete = false;
                 autoCompleteTokens = [];
@@ -129,7 +132,7 @@
                     var typed = line.substring(autoCompleteStart, currentPos + 1);
                     var type = editor.getSession().getTokenAt(currentLine, currentPos).type
                     var value = editor.getSession().getTokenAt(currentLine, currentPos).value
-                    if (type != "keyword.operator" && type != "text" && type != "lparen" && type != "rparen" && value != "<" && value != ">" && value != "*") {
+                    if (checkIfValidToken(type, value)) {
                         try {
                             var tok = editor.getSession().getTokenAt(currentLine, currentPos);
                             if (tok.value != undefined) {
@@ -143,7 +146,7 @@
                     } else {
                         typed = '';
                     }
-                    console.log("Completion based on token : '" + typed + "'");
+                    //console.log("Completion based on token : '" + typed + "'");
                     if (typed.endsWith(" ")) {
                         endAutoComplete();
                     } else {
@@ -159,9 +162,6 @@
                             list += '<option>' + potentialTokens[t] + '</option>';
                         }
                         list += '</select>';
-                        //var actualRow = editor.getSession().documentToScreenPosition(currentLine, currentPos).row
-                        //$('#autocomplete').css('top', (actualRow + 1) * 20);
-                        //$('#autocomplete').css('right', (editor.getSession().getScreenLength() * 12) - (currentPos*15));
                         $('#autocomplete').html('');
                         $('#autocomplete').html(list);
                         $('#autocomplete').show();
@@ -170,23 +170,34 @@
                 }
             };
             var insertAutoComplete = function() {
-                var value = $('#autocomplete option[selected=selected]').first().val()
-                var currentPos = editor.selection.getCursor().column;
-                var currentLine = editor.selection.getCursor().row;
-                var line = editor.getSession().getLine(currentLine);
-                var typed = line.substring(autoCompleteStart, currentPos + 1);
-                typed = $.trim(editor.getSession().getTokenAt(currentLine, currentPos).value);
-                var curPos1 = currentPos + 1;
-                var type = editor.getSession().getTokenAt(currentLine, currentPos).type
-                var tokvalue = editor.getSession().getTokenAt(currentLine, currentPos).value
-                if (type != "keyword.operator" && type != "text" && type != "lparen" && type != "rparen" && tokvalue != "<" && tokvalue != ">" && tokvalue != "*") {
-                    if ((currentPos - autoCompleteStart) != typed.length) {
-                        autoCompleteStart = currentPos - typed.length;
+                if (!$('#autocomplete select').is(':empty')) {
+                    var value = $('#autocomplete option[selected=selected]').first().val();
+                    var currentPos = editor.selection.getCursor().column;
+                    var currentLine = editor.selection.getCursor().row;
+                    var typed = '';
+                    var type = editor.getSession().getTokenAt(currentLine, currentPos).type
+                    var tokvalue = editor.getSession().getTokenAt(currentLine, currentPos).value
+                    if (checkIfValidToken(type, tokvalue)) {
+                        try {
+                            var tok = editor.getSession().getTokenAt(currentLine, currentPos);
+                            if (tok.value != undefined) {
+                                typed = $.trim(tok.value);
+                            } else {
+                                typed = '';
+                            }
+                        } catch (_) {
+                            typed = '';
+                        }
+                        if ((currentPos - autoCompleteStart) != typed.length) {
+                            autoCompleteStart = currentPos - typed.length;
+                        }
+                    } else {
+                        typed = '';
                     }
-                }
-                var range = new Range(currentLine, autoCompleteStart, currentLine, curPos1);
-                if (value.toLowerCase().startsWith(typed.toLowerCase())) {
-                    editor.getSession().replace(range, value);
+                    var range = new Range(currentLine, autoCompleteStart, currentLine, currentPos);
+                    if (typed == '' || value.toLowerCase().startsWith(typed.toLowerCase())) {
+                        editor.getSession().replace(range, value);
+                    }
                 }
                 endAutoComplete();
             };
@@ -269,7 +280,7 @@
                             for (var j = 0; j < toks.length; j++) {
                                 var type = toks[j].type;
                                 var value = toks[j].value;
-                                if (type != "keyword.operator" &&type != "text" && type != "lparen" && type != "rparen" && value != "<" && value != ">" && value != "*") {
+                                if (checkIfValidToken(type, value)) {
                                     if (tokens.indexOf(value) < 0) {
                                         tokens.push(value);
                                     }
@@ -320,20 +331,6 @@
                         if(e.charCode == 13 || e.keyCode == 13) {
                             e.preventDefault();
                             insertAutoComplete();
-                        }
-                        if(e.charCode == 38 || e.keyCode == 38) {
-                            e.preventDefault();
-                            var selected = $('#autocomplete option[selected=selected]');
-                            var other = $('#autocomplete option[selected=selected]').prev('option');
-                            selected.removeAttr('selected');
-                            other.attr('selected', 'selected');
-                        }
-                        if(e.charCode == 40 || e.keyCode == 40) {
-                            e.preventDefault();
-                            var selected = $('#autocomplete option[selected=selected]');
-                            var other = $('#autocomplete option[selected=selected]').next('option');
-                            selected.removeAttr('selected');
-                            other.attr('selected', 'selected');
                         }
                     }
                 };
