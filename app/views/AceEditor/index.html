@@ -10,8 +10,10 @@
         <script src="${prefix}/public/aceeditor/ace/ace.js" type="text/javascript" charset="utf-8"></script>
         <script src="${prefix}/public/aceeditor/bootstrap/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
         <script src="${prefix}/public/aceeditor/javascripts/prototypes.js" type="text/javascript" charset="utf-8"></script>
+        <script src="${prefix}/public/aceeditor/javascripts/editor.js" type="text/javascript" charset="utf-8"></script>
         <script src="${prefix}/public/aceeditor/javascripts/autocomplete.js" type="text/javascript" charset="utf-8"></script>
         <script src="${prefix}/public/aceeditor/javascripts/snippets.js" type="text/javascript" charset="utf-8"></script>
+        <script src="${prefix}/public/aceeditor/javascripts/javacompiler.js" type="text/javascript" charset="utf-8"></script>
     </head>
     <body>
         <div id="tester" class="modal hide fade span9">
@@ -96,11 +98,6 @@
             var editor;
             var testtab;
 
-//            var insertSnippet = function(key) {
-//                $.get('/public/aceeditor/snippets/' + key + '.txt', function(data) {
-//                    editor.insert(data);
-//                });
-//            };
             var setContextualMessageFor2Sec = function(text) {
                 $('#message').css('font-style', 'normal');
                 $('#message').html(text);
@@ -113,22 +110,22 @@
                 $('#message').css('font-style', 'normal');
                 $('#message').html(text);
             };
-            var compile = function(src) {
-                return $.post('/@editor/compile', {src: src, path: $('#currentFileValue').html()}, function(data) {
-                    if (!data.compilation) {
-                        var line = data.errorLine - 1;
-                        editor.getSession().setAnnotations([{text: data.msg, row: line, type:"error"}]);
-                        $('#message').attr('class', 'label label-important');
-                    } else {
-                        editor.getSession().setAnnotations([]);
-                        $('#message').attr('class', 'label label-success');
-                    }
-                });
-            };
+//            var compile = function(src) {
+//                return $.post('/@editor/compile', {src: src, path: $('#currentFileValue').html()}, function(data) {
+//                    if (!data.compilation) {
+//                        var line = data.errorLine - 1;
+//                        editor.getSession().setAnnotations([{text: data.msg, row: line, type:"error"}]);
+//                        $('#message').attr('class', 'label label-important');
+//                    } else {
+//                        editor.getSession().setAnnotations([]);
+//                        $('#message').attr('class', 'label label-success');
+//                    }
+//                });
+//            };
             var saveFile = function(editor) {
                 var src = editor.getValue();
                 setContextualMessageFor('Saving ...');
-                compile(src).success(function() {
+                JavaCompiler.compile(src).success(function() {
                     $.post('/@editor/save', {src: src, currentFile: $('#currentFileValue').html()}, function(data) {
                         setContextualMessageFor2Sec('File saved !');
                     });
@@ -192,6 +189,7 @@
 
                 $(document).keydown( AutoComplete.handleDirKeys );
                 editor = configureEditor();
+
                 $('#savefile').click(function(e) {
                     e.preventDefault();
                     saveFile(editor);
@@ -251,7 +249,7 @@
                         $('#currentFileValue').html(currentFile);
                         $('#typeOfFileValue').html(type);
                         editor = configureEditor();
-                        compile(editor.getValue());
+                        JavaCompiler.compile(editor.getValue());
                     });
                 });
                 $('#autocomplete option').live('click', function(e) {
@@ -262,7 +260,7 @@
                     AutoComplete.insertAutoComplete();
                 });
                 $('#message').css('font-style', 'italic');
-                compile(editor.getValue());
+                JavaCompiler.compile(editor.getValue());
             })
         </script>
     </body>
