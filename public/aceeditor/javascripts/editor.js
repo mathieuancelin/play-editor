@@ -1,5 +1,15 @@
 var PlayEditor = {};
+
 (function(exports) {
+
+    if (typeof exports == "undefined") {
+        console.error("The namespace doesn't exists.");
+        return;
+    }
+    if (typeof PlayEditor == "undefined") {
+        console.error("The namespace PlayEditor doesn't exists.");
+        return;
+    }
 
     exports.editor = null;
 

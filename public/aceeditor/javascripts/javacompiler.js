@@ -1,5 +1,15 @@
 var JavaCompiler = {};
+
 (function(exports) {
+
+    if (typeof exports == "undefined") {
+        console.error("The namespace doesn't exists.");
+        return;
+    }
+    if (typeof JavaCompiler == "undefined") {
+        console.error("The namespace JavaCompiler doesn't exists.");
+        return;
+    }
 
     exports.compile = function(src) {
         return $.post('/@editor/compile', {src: src, path: $('#currentFileValue').html()}, function(data) {

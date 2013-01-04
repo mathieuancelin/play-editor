@@ -4,6 +4,15 @@ var AutoComplete = {};
 
 (function(exports) {
 
+    if (typeof exports == "undefined") {
+        console.error("The namespace doesn't exists.");
+        return;
+    }
+    if (typeof AutoComplete == "undefined") {
+        console.error("The namespace AutoComplete doesn't exists.");
+        return;
+    }
+
     exports.displayAutoComplete = false;
     exports.autoCompleteTokens = [];
     exports.autoCompleteStart = -1;
