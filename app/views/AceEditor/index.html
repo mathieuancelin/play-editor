@@ -127,8 +127,18 @@
                     var line = editor.getSession().getLine(currentLine);
                     var typed = line.substring(autoCompleteStart, currentPos + 1);
                     var type = editor.getSession().getTokenAt(currentLine, currentPos).type
+                    var value = editor.getSession().getTokenAt(currentLine, currentPos).value
                     if (type != "keyword.operator" && type != "text" && type != "lparen" && type != "rparen" && value != "<" && value != ">" && value != "*") {
-                        typed = $.trim(editor.getSession().getTokenAt(currentLine, currentPos).value);
+                        try {
+                            var tok = editor.getSession().getTokenAt(currentLine, currentPos);
+                            if (tok.value != undefined) {
+                                typed = $.trim(tok.value);
+                            } else {
+                                typed = '';
+                            }
+                        } catch (_) {
+                            typed = '';
+                        }
                     } else {
                         typed = '';
                     }
@@ -139,6 +149,10 @@
                         var potentialTokens = jQuery.grep(autoCompleteTokens, function(token, i){
                             return token.toLowerCase().startsWith(typed.toLowerCase());
                         });
+                        var idx = potentialTokens.indexOf(typed);
+                        if (idx > -1) {
+                            potentialTokens.splice(idx, 1);
+                        }
                         var list = '<select multiple="multiple" size="10">';
                         for (var t = 0; t < potentialTokens.length; t++) {
                             list += '<option>' + potentialTokens[t] + '</option>';
