@@ -3,15 +3,15 @@ var PlayEditor = PlayEditor || Modules.lookup('play.plugin.editor.PlayEditor:1.0
 (function(exports) {
 
     if (typeof exports == "undefined") {
-        console.error("The namespace doesn't exists.");
-        return;
+        throw "The namespace doesn't exists.";
     }
     if (typeof PlayEditor == "undefined") {
-        console.error("The namespace PlayEditor doesn't exists.");
-        return;
+        throw "The namespace PlayEditor doesn't exists.";
     }
 
     exports.editor = null;
+    exports.main = null;
+    exports.autoComplete = null;
 
     exports.configureEditor = function(line) {
         var editor = ace.edit("editor");
@@ -19,7 +19,7 @@ var PlayEditor = PlayEditor || Modules.lookup('play.plugin.editor.PlayEditor:1.0
             name: 'saveFile',
             bindKey: {win: 'Ctrl-S',  mac: 'Command-S'},
             exec: function(editor) {
-                Main.saveFile(editor);
+                exports.main.saveFile(editor);
             },
             readOnly: true
         });
@@ -27,14 +27,14 @@ var PlayEditor = PlayEditor || Modules.lookup('play.plugin.editor.PlayEditor:1.0
             name: 'launchFile',
             bindKey: {win: 'Ctrl-B',  mac: 'Command-B'},
             exec: function(editor) {
-                Main.launchFile(editor)
+                exports.main.launchFile(editor)
             },
             readOnly: true
         });
         editor.commands.addCommand({
             name: 'autocomplete',
             bindKey: {win: 'Ctrl-Space',  mac: 'Ctrl-Space'},
-            exec: AutoComplete.ctrlSpaceTrigger,
+            exec: exports.autoComplete.ctrlSpaceTrigger,
             readOnly: true
         });
         editor.setTheme("ace/theme/monokai");
@@ -45,14 +45,14 @@ var PlayEditor = PlayEditor || Modules.lookup('play.plugin.editor.PlayEditor:1.0
         editor.setShowPrintMargin(false);
         editor.gotoLine(line);
         editor.on("blur", function() {
-            Main.saveFile(editor);
+            exports.main.saveFile(editor);
         });
         editor.on("copy", function(text) {
-            Main.setContextualMessageFor2Sec('Copy selected text ...');
+            exports.main.setContextualMessageFor2Sec('Copy selected text ...');
         });
         editor.getSession().on('change', function(e) {
-            if (AutoComplete.displayAutoComplete) {
-                AutoComplete.autoComplete();
+            if (exports.autoComplete.displayAutoComplete) {
+                exports.autoComplete.autoComplete();
             }
         });
         return editor;

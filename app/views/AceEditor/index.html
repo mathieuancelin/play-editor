@@ -135,7 +135,18 @@
                 exports.refreshIDE = function() {
                     window.location.href = window.location.href;
                 };
+
+                exports.setupModule = function() {
+                    PlayEditor.main = exports;
+                    PlayEditor.autoComplete = AutoComplete;
+                };
             });
+
+            // PlayEditor   =>
+            // AutoComplete => PlayEditor
+            // JavaCompiler => PlayEditor
+            // Snippets     => PlayEditor
+            // Main         => PlayEditor, AutoComplete, JavaCompiler, Snippets
 
             $(document).ready(function() {
 

@@ -104,7 +104,7 @@ var Modules = Modules || {};
      * - messageReceived(msg)
      *
      * @param namespaceString identifier of the module
-     * @return {*} the created or existing module
+     * @return {Object} the created or existing module
      */
     exports.lookup = function(namespaceString) {
         if (!exports.modules.containsKey(namespaceString)) {
@@ -304,7 +304,7 @@ var Modules = Modules || {};
      * Remove an existing module from module system.
      *
      * @param moduleIdentifier the module identifier
-     * @return {*} the removed module
+     * @return {Object} the removed module
      */
     exports.remove = function(moduleIdentifier) {
         if (!exports.modules.containsKey(moduleIdentifier)) {

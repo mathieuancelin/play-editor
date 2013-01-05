@@ -3,12 +3,10 @@ var JavaCompiler = JavaCompiler || Modules.lookup('play.plugin.editor.JavaCompil
 (function(exports) {
 
     if (typeof exports == "undefined") {
-        console.error("The namespace doesn't exists.");
-        return;
+        throw "The namespace doesn't exists.";
     }
     if (typeof JavaCompiler == "undefined") {
-        console.error("The namespace JavaCompiler doesn't exists.");
-        return;
+        throw "The namespace 'JavaCompiler' doesn't exists.";
     }
 
     exports.compile = function(src) {

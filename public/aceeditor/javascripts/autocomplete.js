@@ -5,12 +5,10 @@ var AutoComplete = AutoComplete || Modules.lookup('play.plugin.editor.AutoComple
 (function(exports) {
 
     if (typeof exports == "undefined") {
-        console.error("The namespace doesn't exists.");
-        return;
+        throw "The namespace doesn't exists.";
     }
     if (typeof AutoComplete == "undefined") {
-        console.error("The namespace AutoComplete doesn't exists.");
-        return;
+        throw "The namespace AutoComplete doesn't exists.";
     }
 
     exports.displayAutoComplete = false;

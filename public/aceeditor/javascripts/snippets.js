@@ -3,12 +3,10 @@ var Snippets = Snippets || Modules.lookup('play.plugin.editor.Snippets:1.0');
 (function(exports) {
 
     if (typeof exports == "undefined") {
-        console.error("The namespace doesn't exists.");
-        return;
+        throw "The namespace doesn't exists.";
     }
     if (typeof Snippets == "undefined") {
-        console.error("The namespace Snippets doesn't exists.");
-        return;
+        throw "The namespace 'Snippets' doesn't exists.";
     }
 
     exports.insertSnippet = function(key) {
