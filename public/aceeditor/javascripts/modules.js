@@ -272,7 +272,7 @@ var Modules = Modules || {};
             if (parts.length > 1) {
                 newModule.moduleVersion = parts[1];
             } else {
-                newModule.moduleVersion = "undefined";
+                newModule.moduleVersion = 'default';
             }
             newModule.setupModule = function() {};
             newModule.moduleReady = function() {};
