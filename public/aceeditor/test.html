@@ -20,6 +20,30 @@
             };
         });
 
+        Modules.define('ModuleA:1.0', function(ModuleA) {
+            ModuleA.hello = function() {
+                console.log("Hello from module A v 1.0");
+            };
+            ModuleA.setupModule = function() {
+                console.log("Setup ModuleA v 1.0");
+            };
+            ModuleA.messageReceived = function(msg) {
+                console.log("Received in ModuleA v 1.0 %s", msg);
+            };
+        });
+
+        Modules.define('ModuleA:2.0', function(ModuleA) {
+            ModuleA.hello = function() {
+                console.log("Hello from module A v 2.0");
+            };
+            ModuleA.setupModule = function() {
+                console.log("Setup ModuleA v 2.0");
+            };
+            ModuleA.messageReceived = function(msg) {
+                console.log("Received in ModuleA v 2.0 %s", msg);
+            };
+        });
+
         Modules.define('ModuleB', function(ModuleB) {
             ModuleB.hello = function() {
                 console.log("Hello from module B");
@@ -58,7 +82,7 @@
             Modules.printModules();
             Modules.use('ModuleD', function(ModuleD) {
                 ModuleD.hello();
-                console.log('===========================')
+                console.log('#####################################')
             });
             Modules.uses(['ModuleA', 'ModuleB', 'ModuleC', 'ModuleD'], function(ModuleA, ModuleB, ModuleC, ModuleD) {
                 ModuleA.hello();
@@ -71,6 +95,10 @@
             Modules.sendToModules(['ModuleA', 'ModuleB'], 'Hello ModuleA and ModuleB ...');
             Modules.sendToModulesMatching(/Module[A-B]/i, 'Hello Module matching AB...');
             Modules.sendToModulesMatching(/Module[C-D]/i, 'Hello Module matching CD...');
+
+            Modules.sendToModulesMatching(/Module[A-Z]:[0-9*]\.[0-9*]/i, 'Hello versioned Modules ...');
+            Modules.sendToModulesMatching(/Module[A-z]:1\.[0-9*]/i, 'Hello Modules in v 1.x ...');
+            Modules.sendToModulesMatching(/Module[A-Z]:2\.[0-9*]/i, 'Hello Modules in v 2.x ...');
         });
     </script>
 </body>
