@@ -1,3 +1,148 @@
+/**
+ * Library for modules management.
+ *
+ * Can handle :
+ *  - module definition with optional dependency injection
+ *  - module usage with optional dependency injection
+ *  - module lookup
+ *  - modules status
+ *  - module callback for module setup
+ *  - module callback for app startup
+ *  - event bus for modules
+ *
+ *  @author Mathieu ANCELIN
+ *
+ * ****************************************************************
+ * ****************************************************************
+ *
+ * Usage of Modules lib :
+ *
+ * var FooBar = Modules.define('play.foo.bar', function(exports) {
+ *     exports.hello = function(name) {
+ *         console.log("Hello %s!", name);
+ *         return ("Hello " + name + "!");
+ *     };
+ * });
+ *
+ * var helloFooBar = Modules.use('play.foo.bar', function(NS) {
+ *     NS.hello('foobar');
+ * });
+ *
+ * FooBar.hello('foobar');
+ *
+ * var Bar = Bar || Modules.lookup('play.foo.bar');
+ * Bar.hello('foobar');
+ *
+ * Modules.define('ModuleA', function(ModuleA) {
+ *     ModuleA.hello = function() {
+ *         console.log("Hello from module A");
+ *     };
+ *     ModuleA.setupModule = function() {
+ *         console.log("Setup ModuleA");
+ *     };
+ *     ModuleA.messageReceived = function(msg) {
+ *         console.log("Received in ModuleA %s", msg);
+ *     };
+ * });
+ *
+ * Modules.define('ModuleA:1.0', function(ModuleA) {
+ *     ModuleA.hello = function() {
+ *         console.log("Hello from module A v 1.0");
+ *     };
+ *     ModuleA.setupModule = function() {
+ *         console.log("Setup ModuleA v 1.0");
+ *     };
+ *     ModuleA.messageReceived = function(msg) {
+ *         console.log("Received in ModuleA v 1.0 %s", msg);
+ *     };
+ * });
+ *
+ * Modules.define('ModuleA:2.0', function(ModuleA) {
+ *     ModuleA.hello = function() {
+ *         console.log("Hello from module A v 2.0");
+ *     };
+ *     ModuleA.setupModule = function() {
+ *         console.log("Setup ModuleA v 2.0");
+ *     };
+ *     ModuleA.messageReceived = function(msg) {
+ *         console.log("Received in ModuleA v 2.0 %s", msg);
+ *     };
+ * });
+ *
+ * Modules.define('ModuleB', function(ModuleB) {
+ *     ModuleB.hello = function() {
+ *         console.log("Hello from module B");
+ *     };
+ *     ModuleB.moduleReady = function() {
+ *         console.log("ModuleB is ready !!!");
+ *     };
+ *     ModuleB.messageReceived = function(msg) {
+ *         console.log("Received in ModuleB %s", msg);
+ *     };
+ * });
+ *
+ * Modules.defineWithDependencies('ModuleC', ['ModuleA', 'ModuleB'], function(ModuleC, ModuleA, ModuleB) {
+ *     ModuleC.hello = function() {
+ *         ModuleA.hello();
+ *         ModuleB.hello();
+ *         console.log("Hello from module C");
+ *     };
+ *     ModuleC.messageReceived = function(msg) {
+ *         console.log("Received in ModuleC %s", msg);
+ *     };
+ * });
+ *
+ * Modules.defineWithDependencies('ModuleD', ['ModuleC'], function(ModuleD, ModuleC) {
+ *     ModuleD.hello = function() {
+ *         ModuleC.hello();
+ *         console.log("Hello from module D");
+ *     };
+ *     ModuleD.messageReceived = function(msg) {
+ *          console.log("Received in ModuleD %s", msg);
+ *     };
+ * });
+ *
+ * Modules.initModules();
+ * Modules.printModules();
+ * Modules.use('ModuleD', function(ModuleD) {
+ *     console.log('#####################################');
+ *     ModuleD.hello();
+ *     console.log('#####################################');
+ * });
+ * Modules.uses(['ModuleA', 'ModuleB', 'ModuleC', 'ModuleD'], function(ModuleA, ModuleB, ModuleC, ModuleD) {
+ *
+ *     ModuleA.hello();
+ *     console.log('#####################################');
+ *
+ *     ModuleB.hello();
+ *     console.log('#####################################');
+ *
+ *     ModuleC.hello();
+ *     console.log('#####################################');
+ *
+ *     ModuleD.hello();
+ *     console.log('#####################################');
+ * });
+ *
+ * Modules.broadcast("Hello Modules ...");
+ *
+ * console.log('#####################################');
+ * Modules.sendToModule('ModuleA', 'Hello ModuleA ...');
+ *
+ * console.log('#####################################');
+ * Modules.sendToModules(['ModuleA', 'ModuleB'], 'Hello ModuleA and ModuleB ...');
+ *
+ * console.log('#####################################');
+ * Modules.sendToModulesMatching(/Module[A-B]/i, 'Hello Module matching AB...');
+ * Modules.sendToModulesMatching(/Module[C-D]/i, 'Hello Module matching CD...');
+ *
+ * console.log('#####################################');
+ * Modules.sendToModulesMatching(/Module[A-Z]:[0-9*]\.[0-9*]/i, 'Hello versioned Modules ...');
+ * Modules.sendToModulesMatching(/Module[A-z]:1\.[0-9*]/i, 'Hello Modules in v 1.x ...');
+ * Modules.sendToModulesMatching(/Module[A-Z]:2\.[0-9*]/i, 'Hello Modules in v 2.x ...');
+ *
+ **/
+
 var CommonUtils = CommonUtils || {};
 
 (function(exports) {
@@ -333,154 +478,3 @@ var Modules = Modules || {};
     };
 
 })(Modules);
-
-/**
- * Library for modules management. Can handle :
- *  - module definition with optional dependency injection
- *  - module usage with optional dependency injection
- *  - module lookup
- *  - modules status
- *  - module callback for module setup
- *  - module callback for app startup
- *  - event bus for modules
- *
- * Usage of Modules lib :
- *
- * var FooBar = Modules.define('play.foo.bar', function(exports) {
- *     exports.hello = function(name) {
- *         console.log("Hello %s!", name);
- *         return ("Hello " + name + "!");
- *     };
- * });
- *
- * var helloFooBar = Modules.use('play.foo.bar', function(NS) {
- *     NS.hello('foobar');
- * });
- *
- * FooBar.hello('foobar');
- *
- * var Bar = Bar || Modules.lookup('play.foo.bar');
- * Bar.hello('foobar');
- *
- * Modules.define('ModuleA', function(ModuleA) {
- *     ModuleA.hello = function() {
- *         console.log("Hello from module A");
- *     };
- *     ModuleA.setupModule = function() {
- *         console.log("Setup ModuleA");
- *     };
- *     ModuleA.messageReceived = function(msg) {
- *         console.log("Received in ModuleA %s", msg);
- *     };
- * });
- *
- * Modules.define('ModuleA:1.0', function(ModuleA) {
- *     ModuleA.hello = function() {
- *         console.log("Hello from module A v 1.0");
- *     };
- *     ModuleA.setupModule = function() {
- *         console.log("Setup ModuleA v 1.0");
- *     };
- *     ModuleA.messageReceived = function(msg) {
- *         console.log("Received in ModuleA v 1.0 %s", msg);
- *     };
- * });
- *
- * Modules.define('ModuleA:2.0', function(ModuleA) {
- *     ModuleA.hello = function() {
- *         console.log("Hello from module A v 2.0");
- *     };
- *     ModuleA.setupModule = function() {
- *         console.log("Setup ModuleA v 2.0");
- *     };
- *     ModuleA.messageReceived = function(msg) {
- *         console.log("Received in ModuleA v 2.0 %s", msg);
- *     };
- * });
- *
- * Modules.define('ModuleB', function(ModuleB) {
- *     ModuleB.hello = function() {
- *         console.log("Hello from module B");
- *     };
- *     ModuleB.moduleReady = function() {
- *         console.log("ModuleB is ready !!!");
- *     };
- *     ModuleB.messageReceived = function(msg) {
- *         console.log("Received in ModuleB %s", msg);
- *     };
- * });
- *
- * Modules.defineWithDependencies('ModuleC', ['ModuleA', 'ModuleB'], function(ModuleC, ModuleA, ModuleB) {
- *     ModuleC.hello = function() {
- *         ModuleA.hello();
- *         ModuleB.hello();
- *         console.log("Hello from module C");
- *     };
- *     ModuleC.messageReceived = function(msg) {
- *         console.log("Received in ModuleC %s", msg);
- *     };
- * });
- *
- * Modules.defineWithDependencies('ModuleD', ['ModuleC'], function(ModuleD, ModuleC) {
- *     ModuleD.hello = function() {
- *         ModuleC.hello();
- *         console.log("Hello from module D");
- *     };
- *     ModuleD.messageReceived = function(msg) {
- *          console.log("Received in ModuleD %s", msg);
- *     };
- * });
- *
- * Modules.initModules();
- * Modules.printModules();
- * Modules.use('ModuleD', function(ModuleD) {
- *     console.log('#####################################');
- *     ModuleD.hello();
- *     console.log('#####################################');
- * });
- * Modules.uses(['ModuleA', 'ModuleB', 'ModuleC', 'ModuleD'], function(ModuleA, ModuleB, ModuleC, ModuleD) {
- *
- *     ModuleA.hello();
- *     console.log('#####################################');
- *
- *     ModuleB.hello();
- *     console.log('#####################################');
- *
- *     ModuleC.hello();
- *     console.log('#####################################');
- *
- *     ModuleD.hello();
- *     console.log('#####################################');
- * });
- *
- * Modules.broadcast("Hello Modules ...");
- *
- * console.log('#####################################');
- * Modules.sendToModule('ModuleA', 'Hello ModuleA ...');
- *
- * console.log('#####################################');
- * Modules.sendToModules(['ModuleA', 'ModuleB'], 'Hello ModuleA and ModuleB ...');
- *
- * console.log('#####################################');
- * Modules.sendToModulesMatching(/Module[A-B]/i, 'Hello Module matching AB...');
- * Modules.sendToModulesMatching(/Module[C-D]/i, 'Hello Module matching CD...');
- *
- * console.log('#####################################');
- * Modules.sendToModulesMatching(/Module[A-Z]:[0-9*]\.[0-9*]/i, 'Hello versioned Modules ...');
- * Modules.sendToModulesMatching(/Module[A-z]:1\.[0-9*]/i, 'Hello Modules in v 1.x ...');
- * Modules.sendToModulesMatching(/Module[A-Z]:2\.[0-9*]/i, 'Hello Modules in v 2.x ...');
- *
- **/
-
-// OLD CODE
-/**
- var parts = namespaceString.split('.');
- var parent = window;
- var currentPart = '';
- for(var i = 0, length = parts.length; i < length; i++) {
-     currentPart = parts[i];
-     parent[currentPart] = parent[currentPart] || {};
-     parent = parent[currentPart];
- }
- return parent;
- **/
