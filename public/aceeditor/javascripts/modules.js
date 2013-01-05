@@ -2,6 +2,14 @@ var CommonUtils = CommonUtils || {};
 
 (function(exports) {
 
+    if (typeof exports == "undefined") {
+        throw "The passed namespace isn't defined.";
+    }
+    // check if CommonUtils is defined to use Map()
+    if (typeof CommonUtils == "undefined") {
+        throw "The namespace 'CommonUtils' doesn't exists.";
+    }
+
     exports.Map = function(obj) {
         this.length = 0;
         this.items = {};
