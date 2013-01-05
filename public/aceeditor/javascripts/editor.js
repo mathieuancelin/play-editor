@@ -19,7 +19,7 @@ var PlayEditor = PlayEditor || Modules.lookup('play.plugin.editor.PlayEditor:1.0
             name: 'saveFile',
             bindKey: {win: 'Ctrl-S',  mac: 'Command-S'},
             exec: function(editor) {
-                saveFile(editor);
+                Main.saveFile(editor);
             },
             readOnly: true
         });
@@ -27,7 +27,7 @@ var PlayEditor = PlayEditor || Modules.lookup('play.plugin.editor.PlayEditor:1.0
             name: 'launchFile',
             bindKey: {win: 'Ctrl-B',  mac: 'Command-B'},
             exec: function(editor) {
-                launchFile(editor)
+                Main.launchFile(editor)
             },
             readOnly: true
         });
@@ -45,10 +45,10 @@ var PlayEditor = PlayEditor || Modules.lookup('play.plugin.editor.PlayEditor:1.0
         editor.setShowPrintMargin(false);
         editor.gotoLine(line);
         editor.on("blur", function() {
-            saveFile(editor);
+            Main.saveFile(editor);
         });
         editor.on("copy", function(text) {
-            setContextualMessageFor2Sec('Copy selected text ...');
+            Main.setContextualMessageFor2Sec('Copy selected text ...');
         });
         editor.getSession().on('change', function(e) {
             if (AutoComplete.displayAutoComplete) {

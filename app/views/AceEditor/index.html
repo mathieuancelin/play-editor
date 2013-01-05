@@ -116,16 +116,16 @@
 
                 exports.saveFile = function(editor) {
                     var src = editor.getValue();
-                    setContextualMessageFor('Saving ...');
+                    exports.setContextualMessageFor('Saving ...');
                     JavaCompiler.compile(src).success(function() {
                         $.post('/@editor/save', {src: src, currentFile: $('#currentFileValue').html()}, function(data) {
-                            setContextualMessageFor2Sec('File saved !');
+                            exports.setContextualMessageFor2Sec('File saved !');
                         });
                     });
                 };
 
                 exports.launchFile = function(editor) {
-                    saveFile(PlayEditor.editor);
+                    exports.saveFile(PlayEditor.editor);
                     $('#testerframe').attr('src', '');
                     var url = $('#testurl').val();
                     $('#testerframe').attr('src', url);

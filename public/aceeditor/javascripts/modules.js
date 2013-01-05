@@ -2,19 +2,6 @@ var CommonUtils = CommonUtils || {};
 
 (function(exports) {
 
-    Object.prototype.dumpObject = function() {
-        var dump = "{\n";
-        for (var key in Object.keys(this)) {
-            if (this[key] instanceof Function) {
-                dump += ("    " + key + "()\n");
-            } else {
-                dump += ("    " + key + "\n");
-            }
-        }
-        dump += "}\n";
-        return dump;
-    };
-
     exports.Map = function(obj) {
         this.length = 0;
         this.items = {};
