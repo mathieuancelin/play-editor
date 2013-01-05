@@ -5,7 +5,7 @@ var CommonUtils = CommonUtils || {};
     if (typeof exports == "undefined") {
         throw "The passed namespace isn't defined.";
     }
-    // check if CommonUtils is defined to use Map()
+    // check if CommonUtils is defined
     if (typeof CommonUtils == "undefined") {
         throw "The namespace 'CommonUtils' doesn't exists.";
     }
