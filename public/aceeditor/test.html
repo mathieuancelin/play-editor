@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+    <script src="/public/aceeditor/javascripts/jquery-1.8.2.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/public/aceeditor/javascripts/modules.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+    <script type="text/javascript">
+
+        Modules.define('ModuleA', function(ModuleA) {
+            ModuleA.hello = function() {
+                console.log("Hello from module A");
+            };
+            ModuleA.setupModule = function() {
+                console.log("Setup ModuleA");
+            };
+            ModuleA.messageReceived = function(msg) {
+                console.log("Received in ModuleA %s", msg);
+            };
+        });
+
+        Modules.define('ModuleB', function(ModuleB) {
+            ModuleB.hello = function() {
+                console.log("Hello from module B");
+            };
+            ModuleB.moduleReady = function() {
+                console.log("ModuleB is ready !!!");
+            };
+            ModuleB.messageReceived = function(msg) {
+                console.log("Received in ModuleB %s", msg);
+            };
+        });
+
+        Modules.defineWithDependencies('ModuleC', ['ModuleA', 'ModuleB'], function(ModuleC, ModuleA, ModuleB) {
+            ModuleC.hello = function() {
+                ModuleA.hello();
+                ModuleB.hello();
+                console.log("Hello from module C");
+            };
+            ModuleC.messageReceived = function(msg) {
+                console.log("Received in ModuleC %s", msg);
+            };
+        });
+
+        Modules.defineWithDependencies('ModuleD', ['ModuleC'], function(ModuleD, ModuleC) {
+            ModuleD.hello = function() {
+                ModuleC.hello();
+                console.log("Hello from module D");
+            };
+            ModuleD.messageReceived = function(msg) {
+                 console.log("Received in ModuleD %s", msg);
+            };
+        });
+
+        $(document).ready(function() {
+            Modules.initModules();
+            Modules.printModules();
+            Modules.use('ModuleD', function(ModuleD) {
+                ModuleD.hello();
+                console.log('===========================')
+            });
+            Modules.uses(['ModuleA', 'ModuleB', 'ModuleC', 'ModuleD'], function(ModuleA, ModuleB, ModuleC, ModuleD) {
+                ModuleA.hello();
+                ModuleB.hello();
+                ModuleC.hello();
+                ModuleD.hello();
+            });
+            Modules.broadcast("Hello Modules ...");
+            Modules.sendToModule('ModuleA', 'Hello ModuleA ...');
+            Modules.sendToModules(['ModuleA', 'ModuleB'], 'Hello ModuleA and ModuleB ...');
+            Modules.sendToModulesMatching(/Module[A-B]/i, 'Hello Module matching AB...');
+            Modules.sendToModulesMatching(/Module[C-D]/i, 'Hello Module matching CD...');
+        });
+    </script>
+</body>
+</html>

@@ -9,7 +9,7 @@
         <script src="${prefix}/public/aceeditor/javascripts/jquery-1.8.2.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="${prefix}/public/aceeditor/ace/ace.js" type="text/javascript" charset="utf-8"></script>
         <script src="${prefix}/public/aceeditor/bootstrap/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
-        <script src="${prefix}/public/aceeditor/javascripts/namespace.js" type="text/javascript" charset="utf-8"></script>
+        <script src="${prefix}/public/aceeditor/javascripts/modules.js" type="text/javascript" charset="utf-8"></script>
         <script src="${prefix}/public/aceeditor/javascripts/prototypes.js" type="text/javascript" charset="utf-8"></script>
         <script src="${prefix}/public/aceeditor/javascripts/editor.js" type="text/javascript" charset="utf-8"></script>
         <script src="${prefix}/public/aceeditor/javascripts/autocomplete.js" type="text/javascript" charset="utf-8"></script>
@@ -96,45 +96,50 @@
         <div id="findcontainer" class="hide"></div>
         <script>
 
-            var testtab;
+            var Main = Modules.define('play.plugin.editor.Main:1.0', function(exports) {
 
-            var setContextualMessageFor2Sec = function(text) {
-                $('#message').css('font-style', 'normal');
-                $('#message').html(text);
-                setTimeout(function() {
-                    $('#message').html('Ready to Play !>');
-                    $('#message').css('font-style', 'italic');
-                }, 2000);
-            };
+                exports.testtab = null;
 
-            var setContextualMessageFor = function(text) {
-                $('#message').css('font-style', 'normal');
-                $('#message').html(text);
-            };
+                exports.setContextualMessageFor2Sec = function(text) {
+                    $('#message').css('font-style', 'normal');
+                    $('#message').html(text);
+                    setTimeout(function() {
+                        $('#message').html('Ready to Play !>');
+                        $('#message').css('font-style', 'italic');
+                    }, 2000);
+                };
 
-            var saveFile = function(editor) {
-                var src = editor.getValue();
-                setContextualMessageFor('Saving ...');
-                JavaCompiler.compile(src).success(function() {
-                    $.post('/@editor/save', {src: src, currentFile: $('#currentFileValue').html()}, function(data) {
-                        setContextualMessageFor2Sec('File saved !');
+                exports.setContextualMessageFor = function(text) {
+                    $('#message').css('font-style', 'normal');
+                    $('#message').html(text);
+                };
+
+                exports.saveFile = function(editor) {
+                    var src = editor.getValue();
+                    setContextualMessageFor('Saving ...');
+                    JavaCompiler.compile(src).success(function() {
+                        $.post('/@editor/save', {src: src, currentFile: $('#currentFileValue').html()}, function(data) {
+                            setContextualMessageFor2Sec('File saved !');
+                        });
                     });
-                });
-            };
+                };
 
-            var launchFile = function(editor) {
-                saveFile(PlayEditor.editor);
-                $('#testerframe').attr('src', '');
-                var url = $('#testurl').val();
-                $('#testerframe').attr('src', url);
-                $('#tester').modal('show');
-            };
+                exports.launchFile = function(editor) {
+                    saveFile(PlayEditor.editor);
+                    $('#testerframe').attr('src', '');
+                    var url = $('#testurl').val();
+                    $('#testerframe').attr('src', url);
+                    $('#tester').modal('show');
+                };
 
-            var refreshIDE = function() {
-                window.location.href = window.location.href;
-            };
+                exports.refreshIDE = function() {
+                    window.location.href = window.location.href;
+                };
+            });
 
             $(document).ready(function() {
+
+                Modules.initModules();
 
                 $(document).keydown( AutoComplete.handleDirKeys );
 
@@ -142,12 +147,12 @@
 
                 $('#savefile').click(function(e) {
                     e.preventDefault();
-                    saveFile(PlayEditor.editor);
+                    Main.saveFile(PlayEditor.editor);
                 });
 
                 $('#run').click(function(e) {
                     e.preventDefault();
-                    launchFile(PlayEditor.editor);
+                    Main.launchFile(PlayEditor.editor);
                 });
 
                 $('#create').click(function(e) {
@@ -155,7 +160,7 @@
                     var r = prompt('File path in app ?');
                     if (r != "") {
                         $.post('/@editor/create', {name: r}, function(data) {
-                            refreshIDE();
+                            Main.refreshIDE();
                         });
                     }
                 });
@@ -165,7 +170,7 @@
                     var r = prompt('Dir path in app ?');
                     if (r != "") {
                         $.post('/@editor/createdir', {name: r}, function(data) {
-                            refreshIDE();
+                            Main.refreshIDE();
                         });
                     }
                 });
@@ -176,21 +181,21 @@
                     var r = confirm("Do you really want to delete " + name);
                     if (r == true) {
                         $.post('/@editor/delete', {name: name}, function(data) {
-                            refreshIDE();
+                            Main.refreshIDE();
                         });
                     }
                 });
 
                 $('#refreshfile').click(function(e) {
                     e.preventDefault();
-                    refreshIDE();
+                    Main.refreshIDE();
                 });
 
                 $('#link').click(function(e) {
                     e.preventDefault();
-                    if(testtab == null) { testtab = window.open(); }
-                    testtab.location = 'http://localhost:9000/@editor/file?path=' + encodeURIComponent($('#currentFileValue').html()) + "&line=" + PlayEditor.editor.selection.getCursor().row;
-                    testtab.focus();
+                    if(Main.testtab == null) { Main.testtab = window.open(); }
+                    Main.testtab.location = 'http://localhost:9000/@editor/file?path=' + encodeURIComponent($('#currentFileValue').html()) + "&line=" + PlayEditor.editor.selection.getCursor().row;
+                    Main.testtab.focus();
                 });
 
                 $('.snippet').click(function(e) {
@@ -222,6 +227,7 @@
                 $('#message').css('font-style', 'italic');
 
                 JavaCompiler.compile(PlayEditor.editor.getValue());
+                Modules.printModules();
             })
         </script>
     </body>

@@ -1,4 +1,4 @@
-var Snippets = Snippets || Namespace.lookup('play.plugin.editor.Snippets');
+var Snippets = Snippets || Modules.lookup('play.plugin.editor.Snippets:1.0');
 
 (function(exports) {
 
@@ -8,11 +8,6 @@ var Snippets = Snippets || Namespace.lookup('play.plugin.editor.Snippets');
     }
     if (typeof Snippets == "undefined") {
         console.error("The namespace Snippets doesn't exists.");
-        return;
-    }
-
-    if (typeof exports == "undefined") {
-        console.error("The namespace doesn't exists.");
         return;
     }
 
