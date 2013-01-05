@@ -2,6 +2,19 @@ var CommonUtils = CommonUtils || {};
 
 (function(exports) {
 
+    Object.prototype.dumpObject = function() {
+        var dump = "{\n";
+        for (var key in Object.keys(this)) {
+            if (this[key] instanceof Function) {
+                dump += ("    " + key + "()\n");
+            } else {
+                dump += ("    " + key + "\n");
+            }
+        }
+        dump += "}\n";
+        return dump;
+    };
+
     exports.Map = function(obj) {
         this.length = 0;
         this.items = {};
@@ -138,7 +151,7 @@ var Modules = Modules || {};
      */
     exports.use = function(namespace, callback) {
        if (!exports.modules.containsKey(namespace)) {
-           throw ("Module " + namespace + " doesn't exists.");
+           throw ("Module '" + namespace + "' doesn't exists.");
        }
        return callback(exports.lookup(namespace));
     };
@@ -154,7 +167,7 @@ var Modules = Modules || {};
         var dependencies = [];
         namespaces.forEach(function(item, idx, array) {
             if (!exports.modules.containsKey(item)) {
-                throw ("Module " + item + " doesn't exists.");
+                throw ("Module '" + item + "' doesn't exists.");
             }
             dependencies[idx] = exports.lookup(item);
         });
@@ -170,7 +183,7 @@ var Modules = Modules || {};
      */
     exports.define = function(namespace, callback) {
         if (exports.modules.containsKey(namespace)) {
-            throw ("Module " + namespace + " already exists.");
+            throw ("Module '" + namespace + "' already exists.");
         }
         var mod = exports.lookup(namespace);
         callback(mod);
@@ -187,14 +200,14 @@ var Modules = Modules || {};
      */
     exports.defineWithDependencies = function(namespace, deps, callback) {
         if (exports.modules.containsKey(namespace)) {
-            throw ("Module " + namespace + " already exists.");
+            throw ("Module '" + namespace + "' already exists.");
         }
         var dependencies = [];
         var mod = exports.lookup(namespace);
         dependencies[0] = mod;
         deps.forEach(function(item, idx, array) {
             if (!exports.modules.containsKey(item)) {
-                throw ("Module " + item + " doesn't exists.");
+                throw ("Module '" + item + "' doesn't exists.");
             }
             dependencies[idx + 1] = exports.lookup(item);
         });
@@ -233,12 +246,20 @@ var Modules = Modules || {};
      * Print the current status of module system
      */
     exports.printModules = function() {
-        console.log("\n=========================================\n");
-        console.log("Available modules are : \n");
+        console.log(exports.status());
+    };
+
+    /**
+     * Return the current status of module system
+     */
+    exports.status = function() {
+        var status = "\n=========================================\n";
+        status += "Available modules are : \n\n";
         exports.modules.each(function(idx, item) {
-            console.log("Module => '%s' in version '%s'", item.moduleName, item.moduleVersion);
+            status += ("Module => '" + item.moduleName + "' in version '" + item.moduleVersion + "'\n");
         });
-        console.log("\n=========================================\n");
+        status += "=========================================\n";
+        return status;
     };
 
     /**
@@ -300,7 +321,7 @@ var Modules = Modules || {};
      */
     exports.remove = function(moduleIdentifier) {
         if (!exports.modules.containsKey(moduleIdentifier)) {
-            throw ("Module " + moduleIdentifier + " doesn't exists.");
+            throw ("Module '" + moduleIdentifier + "' doesn't exists.");
         }
         return exports.modules.remove(moduleIdentifier);
     };
@@ -429,9 +450,9 @@ var Modules = Modules || {};
  var parent = window;
  var currentPart = '';
  for(var i = 0, length = parts.length; i < length; i++) {
-            currentPart = parts[i];
-            parent[currentPart] = parent[currentPart] || {};
-            parent = parent[currentPart];
-        }
+     currentPart = parts[i];
+     parent[currentPart] = parent[currentPart] || {};
+     parent = parent[currentPart];
+ }
  return parent;
  **/
