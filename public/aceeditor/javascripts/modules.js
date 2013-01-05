@@ -19,7 +19,6 @@
  *
  * var FooBar = Modules.define('play.foo.bar', function(exports) {
  *     exports.hello = function(name) {
- *         console.log("Hello %s!", name);
  *         return ("Hello " + name + "!");
  *     };
  * });
@@ -105,38 +104,24 @@
  * Modules.initModules();
  * Modules.printModules();
  * Modules.use('ModuleD', function(ModuleD) {
- *     console.log('#####################################');
  *     ModuleD.hello();
- *     console.log('#####################################');
  * });
  * Modules.uses(['ModuleA', 'ModuleB', 'ModuleC', 'ModuleD'], function(ModuleA, ModuleB, ModuleC, ModuleD) {
- *
  *     ModuleA.hello();
- *     console.log('#####################################');
- *
  *     ModuleB.hello();
- *     console.log('#####################################');
- *
  *     ModuleC.hello();
- *     console.log('#####################################');
- *
  *     ModuleD.hello();
- *     console.log('#####################################');
  * });
  *
  * Modules.broadcast("Hello Modules ...");
  *
- * console.log('#####################################');
  * Modules.sendToModule('ModuleA', 'Hello ModuleA ...');
  *
- * console.log('#####################################');
  * Modules.sendToModules(['ModuleA', 'ModuleB'], 'Hello ModuleA and ModuleB ...');
  *
- * console.log('#####################################');
  * Modules.sendToModulesMatching(/Module[A-B]/i, 'Hello Module matching AB...');
  * Modules.sendToModulesMatching(/Module[C-D]/i, 'Hello Module matching CD...');
  *
- * console.log('#####################################');
  * Modules.sendToModulesMatching(/Module[A-Z]:[0-9*]\.[0-9*]/i, 'Hello versioned Modules ...');
  * Modules.sendToModulesMatching(/Module[A-z]:1\.[0-9*]/i, 'Hello Modules in v 1.x ...');
  * Modules.sendToModulesMatching(/Module[A-Z]:2\.[0-9*]/i, 'Hello Modules in v 2.x ...');
