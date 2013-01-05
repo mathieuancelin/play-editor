@@ -139,14 +139,13 @@ var Modules = Modules || {};
 
     // register itself as module
     (function() {
-        var modulesModule = {};
-        modulesModule.moduleIdentifier = 'modules.system.Modules:1.0';
-        modulesModule.moduleName = 'modules.system.Modules';
-        modulesModule.moduleVersion = '1.0';
-        modulesModule.setupModule = function() {};
-        modulesModule.moduleReady = function() {};
-        modulesModule.messageReceived = function(msg) {};
-        exports.modules.put(modulesModule.moduleIdentifier, modulesModule);
+        exports.moduleIdentifier = 'modules.system.Modules:1.0';
+        exports.moduleName = 'modules.system.Modules';
+        exports.moduleVersion = '1.0';
+        exports.setupModule = function() {};
+        exports.moduleReady = function() {};
+        exports.messageReceived = function(msg) {};
+        exports.modules.put(exports.moduleIdentifier, exports);
     })();
 
     /**
