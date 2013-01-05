@@ -137,6 +137,18 @@ var Modules = Modules || {};
         return exports.modules.get(namespaceString);
     };
 
+    // register itself as module
+    (function() {
+        var modulesModule = {};
+        modulesModule.moduleIdentifier = 'modules.system.Modules:1.0';
+        modulesModule.moduleName = 'modules.system.Modules';
+        modulesModule.moduleVersion = '1.0';
+        modulesModule.setupModule = function() {};
+        modulesModule.moduleReady = function() {};
+        modulesModule.messageReceived = function(msg) {};
+        exports.modules.put(modulesModule.moduleIdentifier, modulesModule);
+    })();
+
     /**
      * Get the required Module if exists and apply callback on it.
      *
@@ -251,7 +263,7 @@ var Modules = Modules || {};
         var status = "\n=========================================\n";
         status += "Available modules are : \n\n";
         exports.modules.each(function(idx, item) {
-            status += ("Module => '" + item.moduleName + "' in version '" + item.moduleVersion + "'\n");
+            status += ("Module => '" + item.moduleName + "' version '" + item.moduleVersion + "'\n");
         });
         status += "=========================================\n";
         return status;
