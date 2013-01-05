@@ -4,8 +4,30 @@
     <title>Test</title>
     <script src="/public/aceeditor/javascripts/jquery-1.8.2.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="/public/aceeditor/javascripts/modules.js" type="text/javascript" charset="utf-8"></script>
+    <style type="text/css">
+        body {
+            font-family: "Courier New";
+            font-size: small;
+            background: #272822;
+            color: #F8F8F2;
+        }
+        #messages {
+            margin-top: 20px;
+            margin-left: 50px;
+        }
+        .separator {
+            color: #F92672;
+            margin-bottom: -15px;
+        }
+        .separator2 {
+            color: #E6DB74;
+        }
+    </style>
 </head>
 <body>
+
+    <div id="messages"></div>
+
     <script type="text/javascript">
 
         Modules.define('ModuleA', function(ModuleA) {
@@ -78,6 +100,18 @@
         });
 
         $(document).ready(function() {
+
+            var logFunction = console.log;
+            console.log = function(msg, arg) {
+                if(msg.indexOf('#') > -1) {
+                    msg = ('<div class="separator">' + msg + '</div>');
+                }
+                if(msg.indexOf('===') > -1) {
+                    msg = ('<div class="separator2">' + msg + '</div>');
+                }
+                $('#messages').append(msg.replace('%s', arg).split('\n').join('<br/>') + '<br/>');
+            };
+
             Modules.initModules();
             Modules.printModules();
             Modules.use('ModuleD', function(ModuleD) {
@@ -107,6 +141,8 @@
             Modules.sendToModulesMatching(/Module[A-Z]:[0-9*]\.[0-9*]/i, 'Hello versioned Modules ...');
             Modules.sendToModulesMatching(/Module[A-z]:1\.[0-9*]/i, 'Hello Modules in v 1.x ...');
             Modules.sendToModulesMatching(/Module[A-Z]:2\.[0-9*]/i, 'Hello Modules in v 2.x ...');
+
+            console.log = logFunction;
         });
     </script>
 </body>
