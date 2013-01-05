@@ -1,6 +1,6 @@
 var Range = ace.require('ace/range').Range
 
-Modules.defineWithDependencies('play.plugin.editor.AutoComplete:1.0',
+Modules.createWithDependencies('play.plugin.editor.AutoComplete:1.0',
     ['play.plugin.editor.PlayEditor:1.0'], function(exports, PlayEditor) {
 
     exports.displayAutoComplete = false;

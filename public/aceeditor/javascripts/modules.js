@@ -9,6 +9,7 @@
  *  - module callback for module setup
  *  - module callback for app startup
  *  - event bus for modules
+ *  - module callback for event receive
  *
  *  @author Mathieu ANCELIN
  *
@@ -17,10 +18,10 @@
  *
  * Usage of Modules lib :
  *
- * var FooBar = Modules.define('play.foo.bar', function(exports) {
- *     exports.hello = function(name) {
- *         return ("Hello " + name + "!");
- *     };
+ * var FooBar = Modules.define('play.foo.bar', function() {
+ *     return {
+ *          hello: function(name) { return ("Hello " + name + "!"); }
+ *     }
  * });
  *
  * var helloFooBar = Modules.use('play.foo.bar', function(NS) {
@@ -32,7 +33,7 @@
  * var Bar = Bar || Modules.lookup('play.foo.bar');
  * Bar.hello('foobar');
  *
- * Modules.define('ModuleA', function(ModuleA) {
+ * Modules.create('ModuleA', function(ModuleA) {
  *     ModuleA.hello = function() {
  *         console.log("Hello from module A");
  *     };
@@ -44,7 +45,7 @@
  *     };
  * });
  *
- * Modules.define('ModuleA:1.0', function(ModuleA) {
+ * Modules.create('ModuleA:1.0', function(ModuleA) {
  *     ModuleA.hello = function() {
  *         console.log("Hello from module A v 1.0");
  *     };
@@ -56,7 +57,7 @@
  *     };
  * });
  *
- * Modules.define('ModuleA:2.0', function(ModuleA) {
+ * Modules.create('ModuleA:2.0', function(ModuleA) {
  *     ModuleA.hello = function() {
  *         console.log("Hello from module A v 2.0");
  *     };
@@ -68,7 +69,7 @@
  *     };
  * });
  *
- * Modules.define('ModuleB', function(ModuleB) {
+ * Modules.create('ModuleB', function(ModuleB) {
  *     ModuleB.hello = function() {
  *         console.log("Hello from module B");
  *     };
@@ -80,7 +81,7 @@
  *     };
  * });
  *
- * Modules.defineWithDependencies('ModuleC', ['ModuleA', 'ModuleB'], function(ModuleC, ModuleA, ModuleB) {
+ * Modules.createWithDependencies('ModuleC', ['ModuleA', 'ModuleB'], function(ModuleC, ModuleA, ModuleB) {
  *     ModuleC.hello = function() {
  *         ModuleA.hello();
  *         ModuleB.hello();
@@ -91,7 +92,7 @@
  *     };
  * });
  *
- * Modules.defineWithDependencies('ModuleD', ['ModuleC'], function(ModuleD, ModuleC) {
+ * Modules.createWithDependencies('ModuleD', ['ModuleC'], function(ModuleD, ModuleC) {
  *     ModuleD.hello = function() {
  *         ModuleC.hello();
  *         console.log("Hello from module D");
@@ -246,37 +247,62 @@ var Modules = Modules || {};
      */
     exports.lookup = function(namespaceString) {
         if (!exports.modules.containsKey(namespaceString)) {
-            var newModule = {};
-            newModule.moduleIdentifier = namespaceString;
-            var parts = namespaceString.split(':');
-            if (parts.length > 1) {
-                newModule.moduleName = parts[0];
-            } else {
-                newModule.moduleName = namespaceString;
-            }
-            if (parts.length > 1) {
-                newModule.moduleVersion = parts[1];
-            } else {
-                newModule.moduleVersion = 'default';
-            }
-            newModule.setupModule = function() {};
-            newModule.moduleReady = function() {};
-            newModule.messageReceived = function(msg) {};
+            var newModule = createModuleFrom({}, namespaceString);
             exports.modules.put(namespaceString, newModule);
         }
         return exports.modules.get(namespaceString);
     };
 
-    // register itself as module
-    (function() {
-        exports.moduleIdentifier = 'modules.system.Modules:1.0';
-        exports.moduleName = 'modules.system.Modules';
-        exports.moduleVersion = '1.0';
-        exports.setupModule = function() {};
-        exports.moduleReady = function() {};
-        exports.messageReceived = function(msg) {};
-        exports.modules.put(exports.moduleIdentifier, exports);
-    })();
+    /**
+     * Get the identified module if exists
+     *
+     * @param name module identifier
+     * @return {*} the module
+     */
+    exports.get = function(name) {
+        if (!exports.modules.containsKey(name)) {
+            throw ("Module '" + name + "' doesn't exists.");
+        }
+        return exports.modules.get(name);
+    };
+
+    /**
+     * Register the module with specified name if not exists
+     *
+     * @param name module identifier
+     * @param mod actual module
+     */
+    var registerModuleIfNotExists = function(name, mod) {
+        if (!exports.modules.containsKey(name)) {
+            exports.modules.put(name, mod);
+        }
+    };
+
+    /**
+     * Create a module out of anything
+     *
+     * @param mod the module
+     * @param name the module identifier
+     * @return {*} the module
+     */
+    var createModuleFrom = function(mod, name) {
+        mod.moduleIdentifier = name;
+        var parts = name.split(':');
+        if (parts.length > 1) {
+            mod.moduleName = parts[0];
+        } else {
+            mod.moduleName = name;
+        }
+        if (parts.length > 1) {
+            mod.moduleVersion = parts[1];
+        } else {
+            mod.moduleVersion = 'default';
+        }
+        mod.setupModule = function() {};
+        mod.moduleReady = function() {};
+        mod.messageReceived = function(msg) {};
+        return mod;
+    };
 
     /**
      * Get the required Module if exists and apply callback on it.
@@ -288,6 +314,9 @@ var Modules = Modules || {};
     exports.use = function(namespace, callback) {
        if (!exports.modules.containsKey(namespace)) {
            throw ("Module '" + namespace + "' doesn't exists.");
+       }
+       if (callback == undefined) {
+           return exports.lookup(namespace);
        }
        return callback(exports.lookup(namespace));
     };
@@ -311,13 +340,13 @@ var Modules = Modules || {};
     };
 
     /**
-     * Define a new Module if it doesn't exists
+     * Create a new Module if it doesn't exists
      *
      * @param namespace module identifier
      * @param callback function that will define module structure
      * @return {*} callback call result
      */
-    exports.define = function(namespace, callback) {
+    exports.create = function(namespace, callback) {
         if (exports.modules.containsKey(namespace)) {
             throw ("Module '" + namespace + "' already exists.");
         }
@@ -327,14 +356,30 @@ var Modules = Modules || {};
     };
 
     /**
-     * Define a new Module if it doesn't exists and requires dependencies on other modules.
+     * Define a new Module if it doesn't exists
+     *
+     * @param namespace module identifier
+     * @param callback function that will return the module
+     * @return {*} callback call result
+     */
+    exports.define = function(namespace, callback) {
+        if (exports.modules.containsKey(namespace)) {
+            throw ("Module '" + namespace + "' already exists.");
+        }
+        var mod = createModuleFrom(callback(), namespace);
+        registerModuleIfNotExists(namespace, mod);
+        return mod;
+    };
+
+    /**
+     * Create a new Module if it doesn't exists and requires dependencies on other modules.
      *
      * @param namespace module identifier
      * @param deps array of module identifiers
      * @param callback callback function that will define module structure
      * @return {*} callback call result
      */
-    exports.defineWithDependencies = function(namespace, deps, callback) {
+    exports.createWithDependencies = function(namespace, deps, callback) {
         if (exports.modules.containsKey(namespace)) {
             throw ("Module '" + namespace + "' already exists.");
         }
@@ -350,6 +395,40 @@ var Modules = Modules || {};
         callback.apply(null, dependencies);
         return mod;
     };
+
+    /**
+     * Define a new Module if it doesn't exists and requires dependencies on other modules.
+     *
+     * @param namespace module identifier
+     * @param deps array of module identifiers
+     * @param callback callback function that will return the module
+     * @return {*} the module
+     */
+    exports.defineWithDependencies = function(namespace, deps, callback) {
+        if (exports.modules.containsKey(namespace)) {
+            throw ("Module '" + namespace + "' already exists.");
+        }
+        var dependencies = [];
+        deps.forEach(function(item, idx, array) {
+            if (!exports.modules.containsKey(item)) {
+                throw ("Module '" + item + "' doesn't exists.");
+            }
+            dependencies[idx] = exports.lookup(item);
+        });
+        var mod = createModuleFrom(callback.apply(null, dependencies), namespace);
+        registerModuleIfNotExists(namespace, mod);
+        return mod;
+    };
+
+    (function() {
+        // register itself as module
+        //exports.define('modules.system.Modules:1.0', function() { return exports; });
+        exports.define('modules', function() { return exports; });
+        // try to register jQuery as module if exists
+        if (typeof jQuery != undefined) {
+            exports.define('jquery', function() { return jQuery; });
+        }
+    })();
 
     /**
      * Function that can be called when the environment is ready to work.

@@ -1,4 +1,4 @@
-Modules.define('play.plugin.editor.PlayEditor:1.0', function(exports) {
+Modules.create('play.plugin.editor.PlayEditor:1.0', function(exports) {
 
     exports.editor = null;
     exports.main = null;

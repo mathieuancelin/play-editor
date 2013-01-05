@@ -30,7 +30,7 @@
 
     <script type="text/javascript">
 
-        Modules.define('ModuleA', function(ModuleA) {
+        Modules.create('ModuleA', function(ModuleA) {
             ModuleA.hello = function() {
                 console.log("Hello from module A");
             };
@@ -42,7 +42,7 @@
             };
         });
 
-        Modules.define('ModuleA:1.0', function(ModuleA) {
+        Modules.create('ModuleA:1.0', function(ModuleA) {
             ModuleA.hello = function() {
                 console.log("Hello from module A v 1.0");
             };
@@ -54,7 +54,7 @@
             };
         });
 
-        Modules.define('ModuleA:2.0', function(ModuleA) {
+        Modules.create('ModuleA:2.0', function(ModuleA) {
             ModuleA.hello = function() {
                 console.log("Hello from module A v 2.0");
             };
@@ -66,7 +66,7 @@
             };
         });
 
-        Modules.define('ModuleB', function(ModuleB) {
+        Modules.create('ModuleB', function(ModuleB) {
             ModuleB.hello = function() {
                 console.log("Hello from module B");
             };
@@ -78,7 +78,7 @@
             };
         });
 
-        Modules.defineWithDependencies('ModuleC', ['ModuleA', 'ModuleB'], function(ModuleC, ModuleA, ModuleB) {
+        Modules.createWithDependencies('ModuleC', ['ModuleA', 'ModuleB'], function(ModuleC, ModuleA, ModuleB) {
             ModuleC.hello = function() {
                 ModuleA.hello();
                 ModuleB.hello();
@@ -89,7 +89,7 @@
             };
         });
 
-        Modules.defineWithDependencies('ModuleD', ['ModuleC'], function(ModuleD, ModuleC) {
+        Modules.createWithDependencies('ModuleD', ['ModuleC'], function(ModuleD, ModuleC) {
             ModuleD.hello = function() {
                 ModuleC.hello();
                 console.log("Hello from module D");
@@ -141,9 +141,13 @@
             Modules.sendToModulesMatching(/Module[A-Z]:[0-9*]\.[0-9*]/i, 'Hello versioned Modules ...');
             Modules.sendToModulesMatching(/Module[A-z]:1\.[0-9*]/i, 'Hello Modules in v 1.x ...');
             Modules.sendToModulesMatching(/Module[A-Z]:2\.[0-9*]/i, 'Hello Modules in v 2.x ...');
-
+            console.log('#####################################');
+            Modules.use('jquery', function(jq) {
+                jq('#messages').append('jQuery is available as a module !!!<br/>');
+            });
             console.log('<br/><div class="separator2">... Done !</div><br/><b>$ </b>');
             console.log = logFunction;
+
         });
     </script>
 </body>
