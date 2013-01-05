@@ -1,13 +1,4 @@
-var PlayEditor = PlayEditor || Modules.lookup('play.plugin.editor.PlayEditor:1.0');
-
-(function(exports) {
-
-    if (typeof exports == "undefined") {
-        throw "The namespace doesn't exists.";
-    }
-    if (typeof PlayEditor == "undefined") {
-        throw "The namespace PlayEditor doesn't exists.";
-    }
+Modules.define('play.plugin.editor.PlayEditor:1.0', function(exports) {
 
     exports.editor = null;
     exports.main = null;
@@ -62,4 +53,4 @@ var PlayEditor = PlayEditor || Modules.lookup('play.plugin.editor.PlayEditor:1.0
         exports.editor = exports.configureEditor(line);
     };
 
-})(PlayEditor);
+});

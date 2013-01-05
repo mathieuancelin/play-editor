@@ -1,15 +1,7 @@
 var Range = ace.require('ace/range').Range
 
-var AutoComplete = AutoComplete || Modules.lookup('play.plugin.editor.AutoComplete:1.0');
-
-(function(exports) {
-
-    if (typeof exports == "undefined") {
-        throw "The namespace doesn't exists.";
-    }
-    if (typeof AutoComplete == "undefined") {
-        throw "The namespace AutoComplete doesn't exists.";
-    }
+Modules.defineWithDependencies('play.plugin.editor.AutoComplete:1.0',
+    ['play.plugin.editor.PlayEditor:1.0'], function(exports, PlayEditor) {
 
     exports.displayAutoComplete = false;
     exports.autoCompleteTokens = [];
@@ -151,4 +143,4 @@ var AutoComplete = AutoComplete || Modules.lookup('play.plugin.editor.AutoComple
         }
     };
 
-})(AutoComplete);
+});

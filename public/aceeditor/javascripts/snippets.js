@@ -1,13 +1,5 @@
-var Snippets = Snippets || Modules.lookup('play.plugin.editor.Snippets:1.0');
-
-(function(exports) {
-
-    if (typeof exports == "undefined") {
-        throw "The namespace doesn't exists.";
-    }
-    if (typeof Snippets == "undefined") {
-        throw "The namespace 'Snippets' doesn't exists.";
-    }
+Modules.defineWithDependencies('play.plugin.editor.Snippets:1.0',
+            ['play.plugin.editor.PlayEditor:1.0'], function(exports, PlayEditor) {
 
     exports.insertSnippet = function(key) {
         $.get('/public/aceeditor/snippets/' + key + '.txt', function(data) {
@@ -15,4 +7,4 @@ var Snippets = Snippets || Modules.lookup('play.plugin.editor.Snippets:1.0');
         });
     };
 
-})(Snippets);
+});

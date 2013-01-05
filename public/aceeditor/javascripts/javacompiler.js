@@ -1,13 +1,5 @@
-var JavaCompiler = JavaCompiler || Modules.lookup('play.plugin.editor.JavaCompiler:1.0');
-
-(function(exports) {
-
-    if (typeof exports == "undefined") {
-        throw "The namespace doesn't exists.";
-    }
-    if (typeof JavaCompiler == "undefined") {
-        throw "The namespace 'JavaCompiler' doesn't exists.";
-    }
+Modules.defineWithDependencies('play.plugin.editor.JavaCompiler:1.0',
+    ['play.plugin.editor.PlayEditor:1.0'], function(exports, PlayEditor) {
 
     exports.compile = function(src) {
         return $.post('/@editor/compile', {src: src, path: $('#currentFileValue').html()}, function(data) {
@@ -22,4 +14,4 @@ var JavaCompiler = JavaCompiler || Modules.lookup('play.plugin.editor.JavaCompil
         });
     };
 
-})(JavaCompiler);
+});

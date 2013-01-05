@@ -96,7 +96,13 @@
         <div id="findcontainer" class="hide"></div>
         <script>
 
-            var Main = Modules.define('play.plugin.editor.Main:1.0', function(exports) {
+            Modules.defineWithDependencies('play.plugin.editor.Main:1.0',
+                    [
+                        "play.plugin.editor.AutoComplete:1.0",
+                        "play.plugin.editor.PlayEditor:1.0",
+                        "play.plugin.editor.JavaCompiler:1.0"
+                    ],
+                    function(exports, AutoComplete, PlayEditor, JavaCompiler) {
 
                 exports.testtab = null;
 
@@ -142,103 +148,107 @@
                 };
             });
 
-            // PlayEditor   =>
-            // AutoComplete => PlayEditor
-            // JavaCompiler => PlayEditor
-            // Snippets     => PlayEditor
-            // Main         => PlayEditor, AutoComplete, JavaCompiler, Snippets
-
             $(document).ready(function() {
 
                 Modules.initModules();
 
-                $(document).keydown( AutoComplete.handleDirKeys );
+                Modules.uses([
+                        'play.plugin.editor.Main:1.0',
+                        'play.plugin.editor.AutoComplete:1.0',
+                        'play.plugin.editor.PlayEditor:1.0',
+                        'play.plugin.editor.JavaCompiler:1.0',
+                        'play.plugin.editor.Snippets:1.0'
+                    ], function(Main, AutoComplete, PlayEditor, JavaCompiler, Snippets) {
 
-                PlayEditor.setup(${line});
+                    $(document).keydown( AutoComplete.handleDirKeys );
 
-                $('#savefile').click(function(e) {
-                    e.preventDefault();
-                    Main.saveFile(PlayEditor.editor);
-                });
+                    PlayEditor.setup(${line});
 
-                $('#run').click(function(e) {
-                    e.preventDefault();
-                    Main.launchFile(PlayEditor.editor);
-                });
-
-                $('#create').click(function(e) {
-                    e.preventDefault();
-                    var r = prompt('File path in app ?');
-                    if (r != "") {
-                        $.post('/@editor/create', {name: r}, function(data) {
-                            Main.refreshIDE();
-                        });
-                    }
-                });
-
-                $('#createdir').click(function(e) {
-                    e.preventDefault();
-                    var r = prompt('Dir path in app ?');
-                    if (r != "") {
-                        $.post('/@editor/createdir', {name: r}, function(data) {
-                            Main.refreshIDE();
-                        });
-                    }
-                });
-
-                $('#delete').click(function(e) {
-                    e.preventDefault();
-                    var name = $('#currentFileValue').html();
-                    var r = confirm("Do you really want to delete " + name);
-                    if (r == true) {
-                        $.post('/@editor/delete', {name: name}, function(data) {
-                            Main.refreshIDE();
-                        });
-                    }
-                });
-
-                $('#refreshfile').click(function(e) {
-                    e.preventDefault();
-                    Main.refreshIDE();
-                });
-
-                $('#link').click(function(e) {
-                    e.preventDefault();
-                    if(Main.testtab == null) { Main.testtab = window.open(); }
-                    Main.testtab.location = 'http://localhost:9000/@editor/file?path=' + encodeURIComponent($('#currentFileValue').html()) + "&line=" + PlayEditor.editor.selection.getCursor().row;
-                    Main.testtab.focus();
-                });
-
-                $('.snippet').click(function(e) {
-                    e.preventDefault();
-                    Snippets.insertSnippet($(this).data('key'));
-                });
-
-                $('.sourcefilelink').click(function(e) {
-                    e.preventDefault();
-                    var url = $(this).attr('href');
-                    var currentFile = $(this).data('path');
-                    var type = $(this).data('type');
-                    $('#righcolumn').load(url + ' #editor', function(data) {
-                        $('#currentFileValue').html(currentFile);
-                        $('#typeOfFileValue').html(type);
-                        PlayEditor.setup(0);
-                        JavaCompiler.compile(PlayEditor.editor.getValue());
+                    $('#savefile').click(function(e) {
+                        e.preventDefault();
+                        Main.saveFile(PlayEditor.editor);
                     });
+
+                    $('#run').click(function(e) {
+                        e.preventDefault();
+                        Main.launchFile(PlayEditor.editor);
+                    });
+
+                    $('#create').click(function(e) {
+                        e.preventDefault();
+                        var r = prompt('File path in app ?');
+                        if (r != "") {
+                            $.post('/@editor/create', {name: r}, function(data) {
+                                Main.refreshIDE();
+                            });
+                        }
+                    });
+
+                    $('#createdir').click(function(e) {
+                        e.preventDefault();
+                        var r = prompt('Dir path in app ?');
+                        if (r != "") {
+                            $.post('/@editor/createdir', {name: r}, function(data) {
+                                Main.refreshIDE();
+                            });
+                        }
+                    });
+
+                    $('#delete').click(function(e) {
+                        e.preventDefault();
+                        var name = $('#currentFileValue').html();
+                        var r = confirm("Do you really want to delete " + name);
+                        if (r == true) {
+                            $.post('/@editor/delete', {name: name}, function(data) {
+                                Main.refreshIDE();
+                            });
+                        }
+                    });
+
+                    $('#refreshfile').click(function(e) {
+                        e.preventDefault();
+                        Main.refreshIDE();
+                    });
+
+                    $('#link').click(function(e) {
+                        e.preventDefault();
+                        if(Main.testtab == null) { Main.testtab = window.open(); }
+                        Main.testtab.location = 'http://localhost:9000/@editor/file?path=' + encodeURIComponent($('#currentFileValue').html()) + "&line=" + PlayEditor.editor.selection.getCursor().row;
+                        Main.testtab.focus();
+                    });
+
+                    $('.snippet').click(function(e) {
+                        e.preventDefault();
+                        Snippets.insertSnippet($(this).data('key'));
+                    });
+
+                    $('.sourcefilelink').click(function(e) {
+                        e.preventDefault();
+                        var url = $(this).attr('href');
+                        var currentFile = $(this).data('path');
+                        var type = $(this).data('type');
+                        $('#righcolumn').load(url + ' #editor', function(data) {
+                            $('#currentFileValue').html(currentFile);
+                            $('#typeOfFileValue').html(type);
+                            PlayEditor.setup(0);
+                            JavaCompiler.compile(PlayEditor.editor.getValue());
+                        });
+                    });
+
+                    $('#autocomplete option').live('click', function(e) {
+                        $('#autocomplete option').each(function() {
+                            $(this).removeAttr('selected');
+                        })
+                        $(this).attr('selected', 'selected');
+                        AutoComplete.insertAutoComplete();
+                    });
+
+                    $('#message').css('font-style', 'italic');
+
+                    JavaCompiler.compile(PlayEditor.editor.getValue());
+
+                    Modules.printModules();
                 });
-
-                $('#autocomplete option').live('click', function(e) {
-                    $('#autocomplete option').each(function() {
-                        $(this).removeAttr('selected');
-                    })
-                    $(this).attr('selected', 'selected');
-                    AutoComplete.insertAutoComplete();
-                });
-
-                $('#message').css('font-style', 'italic');
-
-                JavaCompiler.compile(PlayEditor.editor.getValue());
-                Modules.printModules();
             })
         </script>
     </body>
