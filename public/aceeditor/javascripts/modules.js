@@ -316,21 +316,31 @@ var Modules = Modules || {};
 })(Modules);
 
 /**
+ * Library for modules management. Can handle :
+ *  - module definition with optional dependency injection
+ *  - module usage with optional dependency injection
+ *  - module lookup
+ *  - modules status
+ *  - module callback for module setup
+ *  - module callback for app startup
+ *  - event bus for modules
  *
- * Usage of namespace lib :
+ * Usage of Modules lib :
  *
- * Modules.define('play.foo.bar', function(exports) {
+ * var FooBar = Modules.define('play.foo.bar', function(exports) {
  *     exports.hello = function(name) {
- *         console.log("hello %s!", name);
+ *         console.log("Hello %s!", name);
+ *         return ("Hello " + name + "!");
  *     };
  * });
  *
- * Modules.use('play.foo.bar', function(NS) {
+ * var helloFooBar = Modules.use('play.foo.bar', function(NS) {
  *     NS.hello('foobar');
  * });
  *
- * var Bar = Bar || Modules.lookup('play.foo.bar');
+ * FooBar.hello('foobar');
  *
+ * var Bar = Bar || Modules.lookup('play.foo.bar');
  * Bar.hello('foobar');
  *
  * Modules.define('ModuleA', function(ModuleA) {
@@ -405,31 +415,43 @@ var Modules = Modules || {};
  * Modules.initModules();
  * Modules.printModules();
  * Modules.use('ModuleD', function(ModuleD) {
+ *     console.log('#####################################');
  *     ModuleD.hello();
- *     console.log('#####################################')
+ *     console.log('#####################################');
  * });
  * Modules.uses(['ModuleA', 'ModuleB', 'ModuleC', 'ModuleD'], function(ModuleA, ModuleB, ModuleC, ModuleD) {
+ *
  *     ModuleA.hello();
+ *     console.log('#####################################');
+ *
  *     ModuleB.hello();
+ *     console.log('#####################################');
+ *
  *     ModuleC.hello();
+ *     console.log('#####################################');
+ *
  *     ModuleD.hello();
+ *     console.log('#####################################');
  * });
  *
  * Modules.broadcast("Hello Modules ...");
  *
+ * console.log('#####################################');
  * Modules.sendToModule('ModuleA', 'Hello ModuleA ...');
  *
+ * console.log('#####################################');
  * Modules.sendToModules(['ModuleA', 'ModuleB'], 'Hello ModuleA and ModuleB ...');
  *
+ * console.log('#####################################');
  * Modules.sendToModulesMatching(/Module[A-B]/i, 'Hello Module matching AB...');
  * Modules.sendToModulesMatching(/Module[C-D]/i, 'Hello Module matching CD...');
+ *
+ * console.log('#####################################');
  * Modules.sendToModulesMatching(/Module[A-Z]:[0-9*]\.[0-9*]/i, 'Hello versioned Modules ...');
  * Modules.sendToModulesMatching(/Module[A-z]:1\.[0-9*]/i, 'Hello Modules in v 1.x ...');
  * Modules.sendToModulesMatching(/Module[A-Z]:2\.[0-9*]/i, 'Hello Modules in v 2.x ...');
  *
  **/
-
-
 
 // OLD CODE
 /**
