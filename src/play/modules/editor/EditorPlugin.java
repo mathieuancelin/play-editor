@@ -18,7 +18,7 @@ public class EditorPlugin extends PlayPlugin {
     public boolean rawInvocation(Request request, Response response) throws Exception {
         if (Play.mode == Play.Mode.DEV) {
             try {
-                if (Logger.isDebugEnabled()) Logger.debug(request.url);
+                //if (Logger.isDebugEnabled()) Logger.debug(request.url);
                 Request.current.set(request);
                 Response.current.set(response);
                 if (request.url.startsWith("/@editor/file")) {

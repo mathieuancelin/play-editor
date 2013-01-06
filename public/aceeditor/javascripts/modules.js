@@ -232,7 +232,7 @@ var Modules = Modules || {};
      *
      * @type {CommonUtils.Map}
      */
-    exports.modules = new CommonUtils.Map();
+    var registeredModules = new CommonUtils.Map();
 
     /**
      * Create a new module for identifier or get the existing one.
@@ -247,25 +247,11 @@ var Modules = Modules || {};
      * @param namespaceString identifier of the module
      * @return {Object} the created or existing module
      */
-    exports.lookup = function(namespaceString) {
-        if (!exports.modules.containsKey(namespaceString)) {
-            var newModule = createModuleFrom({}, namespaceString);
-            exports.modules.put(namespaceString, newModule);
+    var getOrCreateModule = function(namespaceString) {
+        if (!registeredModules.containsKey(namespaceString)) {
+            exports.define(namespaceString, function() { return {}; });
         }
-        return exports.modules.get(namespaceString);
-    };
-
-    /**
-     * Get the identified module if exists
-     *
-     * @param name module identifier
-     * @return {*} the module
-     */
-    exports.get = function(name) {
-        if (!exports.modules.containsKey(name)) {
-            throw ("Module '" + name + "' doesn't exists.");
-        }
-        return exports.modules.get(name);
+        return registeredModules.get(namespaceString);
     };
 
     /**
@@ -275,8 +261,8 @@ var Modules = Modules || {};
      * @param mod actual module
      */
     var registerModuleIfNotExists = function(name, mod) {
-        if (!exports.modules.containsKey(name)) {
-            exports.modules.put(name, mod);
+        if (!registeredModules.containsKey(name)) {
+            registeredModules.put(name, mod);
         }
     };
 
@@ -306,6 +292,21 @@ var Modules = Modules || {};
         return mod;
     };
 
+    /************************ public API **************************************************/
+
+    /**
+     * Get the identified module if exists
+     *
+     * @param name module identifier
+     * @return {*} the module
+     */
+    exports.get = function(name) {
+        if (!registeredModules.containsKey(name)) {
+            throw ("Module '" + name + "' doesn't exists.");
+        }
+        return registeredModules.get(name);
+    };
+
     /**
      * Get the required Module if exists and apply callback on it.
      *
@@ -314,13 +315,13 @@ var Modules = Modules || {};
      * @return {*} callback call result
      */
     exports.use = function(namespace, callback) {
-       if (!exports.modules.containsKey(namespace)) {
+       if (!registeredModules.containsKey(namespace)) {
            throw ("Module '" + namespace + "' doesn't exists.");
        }
        if (callback == undefined) {
-           return exports.lookup(namespace);
+           return getOrCreateModule(namespace);
        }
-       return callback(exports.lookup(namespace));
+       return callback(getOrCreateModule(namespace));
     };
 
     /**
@@ -333,10 +334,10 @@ var Modules = Modules || {};
     exports.uses = function(namespaces, callback) {
         var dependencies = [];
         namespaces.forEach(function(item, idx, array) {
-            if (!exports.modules.containsKey(item)) {
+            if (!registeredModules.containsKey(item)) {
                 throw ("Module '" + item + "' doesn't exists.");
             }
-            dependencies[idx] = exports.lookup(item);
+            dependencies[idx] = getOrCreateModule(item);
         });
         return callback.apply(null, dependencies);
     };
@@ -349,10 +350,10 @@ var Modules = Modules || {};
      * @return {*} callback call result
      */
     exports.create = function(namespace, callback) {
-        if (exports.modules.containsKey(namespace)) {
+        if (registeredModules.containsKey(namespace)) {
             throw ("Module '" + namespace + "' already exists.");
         }
-        var mod = exports.lookup(namespace);
+        var mod = getOrCreateModule(namespace);
         callback(mod);
         return mod;
     };
@@ -365,7 +366,7 @@ var Modules = Modules || {};
      * @return {*} callback call result
      */
     exports.define = function(namespace, callback) {
-        if (exports.modules.containsKey(namespace)) {
+        if (registeredModules.containsKey(namespace)) {
             throw ("Module '" + namespace + "' already exists.");
         }
         var mod = createModuleFrom(callback(), namespace);
@@ -382,17 +383,17 @@ var Modules = Modules || {};
      * @return {*} callback call result
      */
     exports.createWithDependencies = function(namespace, deps, callback) {
-        if (exports.modules.containsKey(namespace)) {
+        if (registeredModules.containsKey(namespace)) {
             throw ("Module '" + namespace + "' already exists.");
         }
         var dependencies = [];
-        var mod = exports.lookup(namespace);
+        var mod = getOrCreateModule(namespace);
         dependencies[0] = mod;
         deps.forEach(function(item, idx, array) {
-            if (!exports.modules.containsKey(item)) {
+            if (!registeredModules.containsKey(item)) {
                 throw ("Module '" + item + "' doesn't exists.");
             }
-            dependencies[idx + 1] = exports.lookup(item);
+            dependencies[idx + 1] = getOrCreateModule(item);
         });
         callback.apply(null, dependencies);
         return mod;
@@ -407,15 +408,15 @@ var Modules = Modules || {};
      * @return {*} the module
      */
     exports.defineWithDependencies = function(namespace, deps, callback) {
-        if (exports.modules.containsKey(namespace)) {
+        if (registeredModules.containsKey(namespace)) {
             throw ("Module '" + namespace + "' already exists.");
         }
         var dependencies = [];
         deps.forEach(function(item, idx, array) {
-            if (!exports.modules.containsKey(item)) {
+            if (!registeredModules.containsKey(item)) {
                 throw ("Module '" + item + "' doesn't exists.");
             }
-            dependencies[idx] = exports.lookup(item);
+            dependencies[idx] = getOrCreateModule(item);
         });
         var mod = createModuleFrom(callback.apply(null, dependencies), namespace);
         registerModuleIfNotExists(namespace, mod);
@@ -427,7 +428,7 @@ var Modules = Modules || {};
      * Call 'setupModule()' on each existing module.
      */
     exports.modulesReady = function() {
-        exports.modules.each(function(idx, item) {
+        registeredModules.each(function(idx, item) {
             item.moduleReady();
         });
     };
@@ -436,7 +437,7 @@ var Modules = Modules || {};
      * Call 'moduleReady()' on each existing module.
      */
     exports.modulesSetup = function() {
-        exports.modules.each(function(idx, item) {
+        registeredModules.each(function(idx, item) {
             item.setupModule();
         });
     };
@@ -462,7 +463,7 @@ var Modules = Modules || {};
     exports.status = function() {
         var status = "\n=========================================\n";
         status += "Available modules are : \n\n";
-        exports.modules.each(function(idx, item) {
+        registeredModules.each(function(idx, item) {
             var type = "Module  ";
             if (typeof item === "function") {
                 type = "Function";
@@ -479,7 +480,7 @@ var Modules = Modules || {};
      * @param msg broadcasted message
      */
     exports.broadcast = function(msg) {
-        exports.modules.each(function(idx, item) {
+        registeredModules.each(function(idx, item) {
             item.messageReceived(msg);
         });
     };
@@ -492,7 +493,7 @@ var Modules = Modules || {};
      */
     exports.sendToModules = function(modules, msg) {
         modules.forEach(function(item, idx, array) {
-            exports.modules.each(function(modIdx, mod) {
+            registeredModules.each(function(modIdx, mod) {
                 if (mod.moduleIdentifier == item) {
                     mod.messageReceived(msg);
                 }
@@ -507,7 +508,7 @@ var Modules = Modules || {};
      * @param msg sent message
      */
     exports.sendToModulesMatching = function(regex, msg) {
-        exports.modules.each(function(modIdx, mod) {
+        registeredModules.each(function(modIdx, mod) {
             if (mod.moduleIdentifier.match(regex)) {
                 mod.messageReceived(msg);
             }
@@ -521,7 +522,7 @@ var Modules = Modules || {};
      * @param msg sent message
      */
     exports.sendToModule = function(moduleIdentifier, msg) {
-         exports.lookup(moduleIdentifier).messageReceived(msg);
+         getOrCreateModule(moduleIdentifier).messageReceived(msg);
     };
 
     /**
@@ -531,10 +532,10 @@ var Modules = Modules || {};
      * @return {Object} the removed module
      */
     exports.remove = function(moduleIdentifier) {
-        if (!exports.modules.containsKey(moduleIdentifier)) {
+        if (!registeredModules.containsKey(moduleIdentifier)) {
             throw ("Module '" + moduleIdentifier + "' doesn't exists.");
         }
-        return exports.modules.remove(moduleIdentifier);
+        return registeredModules.remove(moduleIdentifier);
     };
 
     (function() {
