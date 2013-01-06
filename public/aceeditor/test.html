@@ -3,6 +3,7 @@
 <head>
     <title>Test</title>
     <script src="/public/aceeditor/javascripts/jquery-1.8.2.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/public/aceeditor/javascripts/underscore.js" type="text/javascript" charset="utf-8"></script>
     <script src="/public/aceeditor/javascripts/modules.js" type="text/javascript" charset="utf-8"></script>
     <style type="text/css">
         body {
@@ -141,9 +142,13 @@
             Modules.sendToModulesMatching(/Module[A-Z]:[0-9*]\.[0-9*]/i, 'Hello versioned Modules ...');
             Modules.sendToModulesMatching(/Module[A-z]:1\.[0-9*]/i, 'Hello Modules in v 1.x ...');
             Modules.sendToModulesMatching(/Module[A-Z]:2\.[0-9*]/i, 'Hello Modules in v 2.x ...');
-            console.log('#####################################');
             Modules.use('jquery', function(jq) {
+                console.log('#####################################');
                 jq('#messages').append('jQuery is available as a module !!!<br/>');
+            });
+            Modules.use('underscore', function(jq) {
+                console.log('#####################################');
+                $('#messages').append('Underscore.js is available as a module !!!<br/>');
             });
             console.log('<br/><div class="separator2">... Done !</div><br/><b>$ </b>');
             console.log = logFunction;

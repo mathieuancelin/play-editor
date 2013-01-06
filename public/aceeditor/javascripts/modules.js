@@ -420,16 +420,6 @@ var Modules = Modules || {};
         return mod;
     };
 
-    (function() {
-        // register itself as module
-        //exports.define('modules.system.Modules:1.0', function() { return exports; });
-        exports.define('modules', function() { return exports; });
-        // try to register jQuery as module if exists
-        if (typeof jQuery != undefined) {
-            exports.define('jquery', function() { return jQuery; });
-        }
-    })();
-
     /**
      * Function that can be called when the environment is ready to work.
      * Call 'setupModule()' on each existing module.
@@ -540,5 +530,23 @@ var Modules = Modules || {};
         }
         return exports.modules.remove(moduleIdentifier);
     };
+
+    (function() {
+        // register itself as modules
+        exports.define('modules', function() { return exports; });
+        exports.define('get', function() { return exports.get; });
+        exports.define('broadcast', function() { return exports.broadcast; });
+        exports.define('sendtomodules', function() { return exports.sendToModules; });
+        exports.define('sendtomodulesmatching', function() { return exports.sendToModulesMatching; });
+        exports.define('sendtomodule', function() { return exports.sendToModule; });
+        // try to register jQuery as module if exists
+        if (typeof jQuery != undefined) {
+            exports.define('jquery', function() { return jQuery; });
+        }
+        // try to register underscorejs as module if exists
+        if (typeof _ != undefined) {
+            exports.define('underscore', function() { return _; });
+        }
+    })();
 
 })(Modules);
