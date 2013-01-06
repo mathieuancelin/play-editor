@@ -14,24 +14,25 @@
  *  @author Mathieu ANCELIN
  *
  * ****************************************************************
- * ****************************************************************
  *
- * Usage of Modules lib :
+ * Usage of Modules lib
+ *
+ * ****************************************************************
  *
  * var FooBar = Modules.define('play.foo.bar', function() {
  *     return {
  *          hello: function(name) { return ("Hello " + name + "!"); }
- *     }
+ *     };
  * });
  *
- * var helloFooBar = Modules.use('play.foo.bar', function(NS) {
- *     NS.hello('foobar');
+ * Modules.use('play.foo.bar', function(fb) {
+ *     console.log(fb.hello('foobar'));
  * });
  *
- * FooBar.hello('foobar');
+ * console.log(FooBar.hello('foobar'));
  *
  * var Bar = Bar || Modules.get('play.foo.bar');
- * Bar.hello('foobar');
+ * console.log(Bar.hello('foobar'));
  *
  * Modules.create('ModuleA', function(ModuleA) {
  *     ModuleA.hello = function() {
@@ -462,7 +463,11 @@ var Modules = Modules || {};
         var status = "\n=========================================\n";
         status += "Available modules are : \n\n";
         exports.modules.each(function(idx, item) {
-            status += ("Module => '" + item.moduleName + "' version '" + item.moduleVersion + "'\n");
+            var type = "Module  ";
+            if (typeof item === "function") {
+                type = "Function";
+            }
+            status += (type + " => '" + item.moduleName + "' version '" + item.moduleVersion + "'\n");
         });
         status += "=========================================\n";
         return status;
