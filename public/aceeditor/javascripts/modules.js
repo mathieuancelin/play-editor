@@ -30,7 +30,7 @@
  *
  * FooBar.hello('foobar');
  *
- * var Bar = Bar || Modules.lookup('play.foo.bar');
+ * var Bar = Bar || Modules.get('play.foo.bar');
  * Bar.hello('foobar');
  *
  * Modules.create('ModuleA', function(ModuleA) {
@@ -92,13 +92,14 @@
  *     };
  * });
  *
- * Modules.createWithDependencies('ModuleD', ['ModuleC'], function(ModuleD, ModuleC) {
+ * Modules.createWithDependencies('ModuleD', ['ModuleC', 'get'], function(ModuleD, ModuleC, get) {
  *     ModuleD.hello = function() {
  *         ModuleC.hello();
  *         console.log("Hello from module D");
  *     };
  *     ModuleD.messageReceived = function(msg) {
- *          console.log("Received in ModuleD %s", msg);
+ *         console.log("Received in ModuleD %s", msg);
+ *         get('ModuleA').hello();
  *     };
  * });
  *
