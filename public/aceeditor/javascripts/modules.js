@@ -288,21 +288,21 @@ var Modules = Modules || {};
      * @return {*} the module
      */
     var createModuleFrom = function(mod, name) {
-        mod.moduleIdentifier = name;
+        if (!mod.hasOwnProperty('moduleIdentifier')) mod.moduleIdentifier = name;
         var parts = name.split(':');
         if (parts.length > 1) {
-            mod.moduleName = parts[0];
+            if (!mod.hasOwnProperty('moduleName')) mod.moduleName = parts[0];
         } else {
-            mod.moduleName = name;
+            if (!mod.hasOwnProperty('moduleName')) mod.moduleName = name;
         }
         if (parts.length > 1) {
-            mod.moduleVersion = parts[1];
+            if (!mod.hasOwnProperty('moduleVersion')) mod.moduleVersion = parts[1];
         } else {
-            mod.moduleVersion = 'default';
+            if (!mod.hasOwnProperty('moduleVersion')) mod.moduleVersion = 'default';
         }
-        mod.setupModule = function() {};
-        mod.moduleReady = function() {};
-        mod.messageReceived = function(msg) {};
+        if (!mod.hasOwnProperty('setupModule')) mod.setupModule = function() {};
+        if (!mod.hasOwnProperty('moduleReady')) mod.moduleReady = function() {};
+        if (!mod.hasOwnProperty('messageReceived')) mod.messageReceived = function(msg) {};
         return mod;
     };
 
