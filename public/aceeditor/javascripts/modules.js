@@ -493,11 +493,10 @@ var Modules = Modules || {};
      */
     exports.sendToModules = function(modules, msg) {
         modules.forEach(function(item, idx, array) {
-            registeredModules.each(function(modIdx, mod) {
-                if (mod.moduleIdentifier == item) {
-                    mod.messageReceived(msg);
-                }
-            });
+            var module = registeredModules.get(item);
+            if (module !== 'undefined') {
+                module.messageReceived(msg);
+            }
         });
     };
 
